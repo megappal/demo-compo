@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>PRODUCTION MEGAPPAL PROJECT</title>
+  <style>
+    body {
+      background: #15141a;
+      color: #eee;
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      padding-bottom: 40px; /* Assure espace sous le footer */
+      box-sizing: border-box;
+    }
+    .main-card {
+      max-width: 1050px;
+      margin: 40px auto 10px auto;
+      border-radius: 16px;
+      background: #191a1f;
+      box-shadow: 0 4px 32px #000a;
+      padding: 32px 32px 28px 32px;
+      display: flex;
+      align-items: flex-start;
+      gap: 40px;
+      position: relative;
+    }
+    .side-left {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .side-left img {
+      max-width: 270px;
+      border-radius: 10px;
+      box-shadow: 0 2px 14px #0008;
+      background: #222;
+    }
+    .side-right {
+      flex: 2;
+      min-width: 350px;
+      display: flex;
+      flex-direction: column;
+    }
+    .song-title {
+      font-size: 2em;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .song-desc {
+      color: #ccc;
+      margin-bottom: 16px;
+      font-size: 1em;
+    }
+    .audio-box {
+      background: #22232a;
+      border-radius: 13px;
+      margin-bottom: 18px;
+      padding: 14px 13px 5px 13px;
+    }
+    audio {
+      width: 100%;
+      margin-top: 4px;
+      border-radius: 8px;
+      background: #212127;
+    }
+    .fiche {
+      background: #23232b;
+      border-radius: 14px;
+      padding: 17px 23px;
+      color: #eee;
+      font-size: 1em;
+      margin-top: 18px;
+      box-shadow: 0 2px 20px #0004;
+    }
+    .fiche .lead {
+      color: #16f2a0;
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+      margin-bottom: 9px;
+      font-size: 1.1em;
+    }
+    .footer {
+      max-width: 1050px;
+      margin: 0 auto;
+      text-align: center;
+      letter-spacing: 2px;
+      color: #aaa;
+      padding-top: 6px;
+      padding-bottom: 10px;
+      font-weight: 600;
+    }
+    .arrow-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #262636;
+      color: #27ffd6;
+      border: none;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      font-size: 2.3em;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 16px #0008;
+      z-index: 10;
+      transition: background 0.18s;
+    }
+    .arrow-btn:hover {
+      background: #34efb6;
+    }
+    .arrow-btn.left {
+      left: -28px;
+    }
+    .arrow-btn.right {
+      right: -28px;
+    }
+    @media (max-width: 900px) {
+      body {
+        padding-bottom: 20px;
+      }
+      .main-card {
+        flex-direction: column;
+        padding: 20px 5vw 14px 5vw;
+      }
+      .side-left {
+        margin-bottom: 24px;
+      }
+      .side-right {
+        min-width: 0;
+      }
+      .arrow-btn {
+        top: unset;
+        bottom: 13px;
+        transform: none;
+      }
+      .arrow-btn.left {
+        left: 24px;
+      }
+      .arrow-btn.right {
+        right: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="demo-container"></div>
+  <div class="footer">
+    PRODUCTION MEGAPPAL PROJECT<br />
+    Démos privées — accès sur invitation
+  </div>
+  <script>
+    const demos = [
+      {
+        title: "Ray of Sunshine (for Julie)",
+        desc: "Personalized demo in English for Julie.",
+        img: "0001A-Ray of Sunshine (for Julie).jpg",
+        mp3: "0001A-Ray of Sunshine (for Julie).mp3",
+        fiche: `<b>Person:</b> Julie Tremblay<br>
+<b>Age:</b> 30 years<br>
+<b>Gender:</b> Female<br>
+<b>Relation:</b> Sister<br>
+<b>Ordered by:</b> Marie Tremblay<br>
+<b>Event:</b> 30th surprise birthday<br>
+<b>Music style:</b> Acoustic pop<br>
+<b>Atmosphere:</b> Emotional and joyful<br>
+<b>Language:</b> English<br>
+<b>Details:</b> Loves traveling, red wine, and her cat Léo. Lives in Québec.<br>
+<b>Special message:</b> “Never change, you are our ray of sunshine.”`,
+      },
+      {
+        title: "Rayon de Soleil pour Julie",
+        desc: "Démo personnalisée en français pour Julie.",
+        img: "0001-Rayon de Soleil (pour Julie).jpg",
+        mp3: "0001-Rayon de Soleil (pour Julie).mp3",
+        fiche: `<b>Personne fêtée :</b> Julie Tremblay<br>
+<b>Âge célébré :</b> 30 ans<br>
+<b>Sexe :</b> Féminin<br>
+<b>Relation :</b> Sœur<br>
+<b>Commandé par :</b> Marie Tremblay<br>
+<b>Événement :</b> 30e anniversaire surprise<br>
+<b>Style musical :</b> Pop acoustique<br>
+<b>Ambiance :</b> Émotive et joyeuse<br>
+<b>Langue :</b> Français<br>
+<b>Détails :</b> Adore les voyages, le vin rouge, et son chat Léo. Vit à Québec.<br>
+<b>Message spécial :</b> “Ne change jamais, tu es notre rayon de soleil.”`,
+      },
+      {
+        title: "Le Roi du BBQ (pour Sam)",
+        desc: "Hommage BBQ pour Sam.",
+        img: "0002-Le Roi du BBQ (pour Sam).jpg",
+        mp3: "0002-Le Roi du BBQ (pour Sam).mp3",
+        fiche: `<b>Personne fêtée :</b> Samuel Dubé<br>
+<b>Âge célébré :</b> 25 ans<br>
+<b>Sexe :</b> Masculin<br>
+<b>Relation :</b> Meilleur ami<br>
+<b>Commandé par :</b> Alex Gagnon<br>
+<b>Événement :</b> Fête entre amis au chalet<br>
+<b>Style musical :</b> Pop-rock<br>
+<b>Ambiance :</b> Drôle et festive<br>
+<b>Langue :</b> Français<br>
+<b>Détails :</b> Toujours en retard, passionné de pêche et de bières artisanales.<br>
+<b>Message spécial :</b> “T’es le roi du BBQ, même en hiver.”`,
+      },
+      {
+        title: "Mon Roc, Mon Aventure (pour Marc-André)",
+        desc: "Démo dédiée à Marc-André.",
+        img: "0003-Mon Roc, Mon Aventure (pour Marc-André).jpg",
+        mp3: "0003-Mon Roc, Mon Aventure (pour Marc-André).mp3",
+        fiche: `<b>Personne fêtée :</b> Marc-André Lavoie<br>
+<b>Âge célébré :</b> 40 ans<br>
+<b>Sexe :</b> Masculin<br>
+<b>Relation :</b> Conjoint<br>
+<b>Commandé par :</b> Sophie Lavoie<br>
+<b>Événement :</b> Souper romantique 40e anniversaire<br>
+<b>Style musical :</b> Ballade pop<br>
+<b>Ambiance :</b> Romantique et tendre<br>
+<b>Langue :</b> Français<br>
+<b>Détails :</b> Amoureux de la nature, bricoleur, père de deux enfants (Éli et Maé).<br>
+<b>Message spécial :</b> “Tu restes mon roc, mon amour, mon aventure.”`,
+      },
+      {
+        title: "50 Ans de Légende (pour Pat)",
+        desc: "Démo anniversaire pour Pat.",
+        img: "0004-50 Ans de Légende (pour Pat).jpg",
+        mp3: "0004-50 Ans de Légende (pour Pat).mp3",
+        fiche: `<b>Personne fêtée :</b> Patrick “Pat” Lemieux<br>
+<b>Âge célébré :</b> 50 ans<br>
+<b>Sexe :</b> Masculin<br>
+<b>Relation :</b> Collègue de travail<br>
+<b>Commandé par :</b> Kevin Morin<br>
+<b>Événement :</b> Party de bureau pour ses 50 ans<br>
+<b>Style musical :</b> Rock’n’roll classique<br>
+<b>Ambiance :</b> Humour et camaraderie<br>
+<b>Langue :</b> Français<br>
+<b>Détails :</b> Toujours la blague facile, fan d’Elvis et de motos Harley.<br>
+<b>Message spécial :</b> “50 ans de légende, et toujours aussi jeune dans sa tête !”`,
+      },
+      {
+        title: "Rêve Grand, Ma Petite Étoile (pour Zoé)",
+        desc: "Démo longtemps rêvée pour Zoé.",
+        img: "0005-Rêve Grand, Ma Petite Étoile (pour Zoé).jpg",
+        mp3: "0005-Rêve Grand, Ma Petite Étoile (pour Zoé).mp3",
+        fiche: `<b>Personne fêtée :</b> Zoé Fortin<br>
+<b>Âge célébré :</b> 10 ans<br>
+<b>Sexe :</b> Féminin<br>
+<b>Relation :</b> Maman<br>
+<b>Commandé par :</b> Élise Fortin<br>
+<b>Événement :</b> Fête d’enfant à la maison<br>
+<b>Style musical :</b> Pop joyeux (style Disney)<br>
+<b>Ambiance :</b> Magique et enfantine<br>
+<b>Langue :</b> Français<br>
+<b>Détails :</b> Aime les licornes, la danse et les cupcakes.<br>
+<b>Message spécial :</b> “Rêve grand, ma petite étoile.”`,
+      },
+      {
+        title: "Café & Lundi (pour Annie)",
+        desc: "Rituel du lundi matin pour Annie.",
+        img: "0006-Café & Lundi (pour Annie).jpg",
+        mp3: "0006-Café & Lundi (pour Annie).mp3",
+        fiche: `<b>Personne fêtée :</b> Annie Bouchard<br>
+<b>Âge célébré :</b> 35 ans<br>
+<b>Sexe :</b> Féminin<br>
+<b>Relation :</b> Collègue proche<br>
+<b>Commandé par :</b> David Tremblay<br>
+<b>Événement :</b> Fête surprise au bureau<br>
+<b>Style musical :</b> Jazz-swing<br>
+<b>Ambiance :</b> Classe, drôle et légère<br>
+<b>Langue :</b> Français<br>
+<b>Détails :</b> Toujours élégante, adore le café et fait des blagues sarcastiques.<br>
+<b>Message spécial :</b> “Annie sans café, c’est comme lundi sans soleil.”`,
+      },
+      {
+        title: "Le Rire des Vagues (pour Jean)",
+        desc: "Vagues et souvenirs pour Jean.",
+        img: "0007-Le Rire des Vagues (pour Jean).jpg",
+        mp3: "0007-Le Rire des Vagues (pour Jean).mp3",
+        fiche: `<b>Personne fêtée :</b> Jean Leblanc<br>
+<b>Âge célébré :</b> 60 ans<br>
+<b>Sexe :</b> Masculin<br>
+<b>Relation :</b> Fille<br>
+<b>Commandé par :</b> Caroline Leblanc<br>
+<b>Événement :</b> Fête familiale<br>
+<b>Style musical :</b> Folk acoustique<br>
+<b>Ambiance :</b> Nostalgique et chaleureuse<br>
+<b>Langue :</b> Français<br>
+<b>Détails :</b> Ancien marin, aime jouer de la guitare, raconte toujours ses histoires du fleuve.<br>
+<b>Message spécial :</b> “Papa, ton rire fait encore danser les vagues.”`,
+      },
+      {
+        title: "Le Monde Est à Toi (pour Clara)",
+        desc: "Démo motivation pour Clara.",
+        img: "0008-Le Monde Est à Toi (pour Clara).jpg",
+        mp3: "0008-Le Monde Est à Toi (pour Clara).mp3",
+        fiche: `<b>Personne fêtée :</b> Clara Côté<br>
+<b>Âge célébré :</b> 18 ans<br>
+<b>Sexe :</b> Féminin<br>
+<b>Relation :</b> Maman<br>
+<b>Commandé par :</b> Julie Coté<br>
+<b>Événement :</b> 18e anniversaire (fête de passage)<br>
+<b>Style musical :</b> Pop électro<br>
+<b>Ambiance :</b> Inspirante et énergique<br>
+<b>Langue :</b> Français<br>
+<b>Détails :</b> Ado passionnée de photo, d’astrologie et de voyage.<br>
+<b>Message spécial :</b> “Le monde est à toi, ma belle lumière.”`,
+      },
+      {
+        title: "Plus Que Les Pâtes du Monde (pour Mélanie)",
+        desc: "Démo gourmande pour Mélanie.",
+        img: "0009-Plus Que Les Pâtes du Monde (pour Mélanie).jpg",
+        mp3: "0009-Plus Que Les Pâtes du Monde (pour Mélanie).mp3",
+        fiche: `<b>Personne fêtée :</b> Mélanie Girard<br>
+<b>Âge célébré :</b> 28 ans<br>
+<b>Sexe :</b> Féminin<br>
+<b>Relation :</b> Conjointe<br>
+<b>Commandé par :</b> Tommy Beaulieu<br>
+<b>Événement :</b> Fête surprise à la maison<br>
+<b>Style musical :</b> Pop romantique<br>
+<b>Ambiance :</b> Douce et sincère<br>
+<b>Langue :</b> Français<br>
+<b>Détails :</b> Elle adore les couchers de soleil et la cuisine italienne.<br>
+<b>Message spécial :</b> “Je t’aime plus que toutes les pâtes du monde.”`,
+      },
+      {
+        title: "Ma Petite Tornade (pour Léa)",
+        desc: "Tornade d’amour pour Léa.",
+        img: "0010-Ma Petite Tornade (pour lea).jpg",
+        mp3: "0010-Ma Petite Tornade (pour lea).mp3",
+        fiche: `<b>Personne fêtée :</b> Léa Dion<br>
+<b>Âge célébré :</b> 5 ans<br>
+<b>Sexe :</b> Féminin<br>
+<b>Relation :</b> Papa<br>
+<b>Commandé par :</b> Frédéric Dion<br>
+<b>Événement :</b> Fête d’enfant au parc<br>
+<b>Style musical :</b> Pop pour enfants (style comique et adorable)<br>
+<b>Ambiance :</b> Enjouée et ludique<br>
+<b>Langue :</b> Français<br>
+<b>Détails :</b> Aime les arcs-en-ciel, les bulles et les histoires de princesses.<br>
+<b>Message spécial :</b> “Léa, ma petite tornade d’amour.”`,
+      }
+    ];
+
+    let idx = 0;
+
+    function renderDemo(index) {
+      const d = demos[index];
+      document.getElementById('demo-container').innerHTML = `
+        <div class="main-card">
+          <button class="arrow-btn left" onclick="changeDemo(-1)">&lt;</button>
+          <div class="side-left">
+            <img src="${d.img}" alt="${d.title}">
+          </div>
+          <div class="side-right">
+            <div class="song-title">${d.title}</div>
+            <div class="song-desc">${d.desc}</div>
+            <div class="audio-box">
+              <audio controls src="${d.mp3}"></audio>
+            </div>
+            ${d.fiche ? `<div class="fiche"><span class="lead">Exemple de fiche de création personnalisée</span>${d.fiche}</div>` : ''}
+          </div>
+          <button class="arrow-btn right" onclick="changeDemo(1)">&gt;</button>
+        </div>`;
+      document.querySelector('.arrow-btn.left').style.visibility = (index === 0) ? 'hidden' : 'visible';
+      document.querySelector('.arrow-btn.right').style.visibility = (index === demos.length - 1) ? 'hidden' : 'visible';
+    }
+
+    function changeDemo(inc) {
+      idx += inc;
+      if (idx < 0) idx = 0;
+      if (idx >= demos.length) idx = demos.length - 1;
+      renderDemo(idx);
+    }
+
+    renderDemo(0);
+
+    document.addEventListener('keydown', function(e){
+      if(e.key==="ArrowLeft") changeDemo(-1);
+      if(e.key==="ArrowRight") changeDemo(1);
+    });
+  </script>
+</body>
+</html>
