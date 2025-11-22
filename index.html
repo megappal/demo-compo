@@ -43,6 +43,13 @@
       display: flex;
       flex-direction: column;
     }
+    /* Correction pour alignement vertical */
+    .side-right.cta-align {
+        height: 100%; /* Important pour Flexbox */
+        justify-content: center; /* Centre verticalement le contenu */
+    }
+    /* Fin correction alignement vertical */
+    
     .song-title {
       font-size: 2em;
       font-weight: bold;
@@ -121,6 +128,48 @@
     .arrow-btn.right {
       right: -28px;
     }
+    
+    /* --- Styles spécifiques Page 11 (CTA) --- */
+    .cta-columns {
+        display: flex;
+        gap: 20px;
+        text-align: left;
+        margin: 0;
+        max-width: 800px;
+        align-self: center;
+        padding-top: 5px;
+    }
+    .cta-columns > div {
+        flex: 1;
+        min-width: 250px;
+    }
+    .cta-action {
+        font-size: 1.6em;
+        font-weight: 900;
+        margin: 15px auto !important;
+        padding: 10px 20px;
+        background: #34efb6;
+        color: #191a1f;
+        border-radius: 8px;
+        display: inline-block;
+        box-shadow: 0 4px 10px #0008;
+    }
+    .cta-box {
+        margin-top: 15px;
+        padding: 15px 25px;
+        background: #27ffd6;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px #0008;
+        text-align: center;
+    }
+    .cta-wrap {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        font-style: italic;
+        line-height: 1.3;
+    }
+    /* --- Fin Styles Page 11 --- */
+    
     @media (max-width: 900px) {
       body {
         padding-bottom: 20px;
@@ -134,6 +183,11 @@
       }
       .side-right {
         min-width: 0;
+      }
+      /* Ajustement pour Page 11 sur mobile */
+      .cta-columns {
+          flex-direction: column;
+          gap: 10px;
       }
       .arrow-btn {
         top: unset;
@@ -152,7 +206,7 @@
 <body>
   <div id="demo-container"></div>
   <div class="footer">
-    PRODUCTION MEGAPPAL PROJECT<br />
+    Une production de Megappal Project<br />
     Démos privées — accès sur invitation
   </div>
   <script>
@@ -326,6 +380,37 @@
 <b>Langue :</b> Français<br>
 <b>Détails :</b> Aime les arcs-en-ciel, les bulles et les histoires de princesses.<br>
 <b>Message spécial :</b> “Léa, ma petite tornade d’amour.”`,
+      },
+      {
+        title: "CRÉEZ VOTRE CADEAU ULTIME.",
+        desc: "La chanson sur mesure, un souvenir qui dure pour toujours.",
+        img: "cta-image.jpg", /* Image générique ou représentative du service. */
+        mp3: null, // Pas de fichier audio sur cette page
+        fiche: `
+            <div class="cta-columns">
+                <div class="column-left">
+                    <h3 style="margin: 0 0 5px 0; color: #16f2a0;">Pourquoi choisir une chanson sur mesure ?</h3> <ul style="list-style: none; padding-left: 0; padding-top: 0; margin: 0;"> <li style="margin-bottom: 5px;"><strong>★ 100% Personnalisé :</strong> Votre histoire, vos anecdotes, vos messages... transformés en musique.</li>
+                        <li style="margin-bottom: 5px;"><strong>★ Unicité Garantie :</strong> Une œuvre originale composée uniquement pour vous et votre proche.</li>
+                        <li style="margin-bottom: 5px;"><strong>★ Le Cadeau qui Touche :</strong> Bien plus qu'un objet, c'est une preuve d'amour et d'attention inégalée.</li>
+                        <li style="margin-bottom: 5px;"><strong>★ Qualité Professionnelle :</strong> Production et composition par <strong>Megappal Project</strong>.</li>
+                    </ul>
+                </div>
+
+                <div class="column-right">
+                    <h3 style="margin: 0 0 5px 0; color: #16f2a0;">Le processus est simple et rapide</h3> <ol style="text-align: left; padding-left: 25px; padding-top: 0; margin: 30px 0 0 0;"> <li><strong>Achetez le service :</strong> Commandez votre chanson directement à la caisse de cette boutique.</li>
+                        <li><strong>Remplissez le Formulaire :</strong> Un employé vous fournira le lien de notre formulaire pour nous donner les détails créatifs.</li>
+                        <li><strong>Réception :</strong> Recevez votre chanson en fichier MP3 de haute qualité, prête à être offerte !</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="cta-box">
+                <h2 style="color: #191a1f; margin-top: 0; margin-bottom: 5px; font-size: 1.6em;">NE PARTEZ PAS SANS VOTRE CHANSON !</h2>
+                <p style="color: #191a1f; margin: 0 0 10px 0;">Le service est uniquement disponible via nos marchands partenaires.</p>
+                <p class="cta-action">PARLEZ-EN À UN EMPLOYÉ !</p>
+                <p class="cta-wrap" style="color: #191a1f; margin-top: 10px; margin-bottom: 0;">Il ou elle vous guidera pour l'achat et vous remettra un lien vers votre formulaire de composition personnalisé.</p>
+            </div>
+        `,
       }
     ];
 
@@ -333,22 +418,47 @@
 
     function renderDemo(index) {
       const d = demos[index];
-      document.getElementById('demo-container').innerHTML = `
-        <div class="main-card">
-          <button class="arrow-btn left" onclick="changeDemo(-1)">&lt;</button>
-          <div class="side-left">
-            <img src="${d.img}" alt="${d.title}">
-          </div>
-          <div class="side-right">
-            <div class="song-title">${d.title}</div>
-            <div class="song-desc">${d.desc}</div>
-            <div class="audio-box">
-              <audio controls src="${d.mp3}"></audio>
+      let contentHtml;
+
+      if (d.mp3) {
+        // Rendu pour les pages de démos (1 à 10)
+        contentHtml = `
+          <div class="main-card">
+            <button class="arrow-btn left" onclick="changeDemo(-1)">&lt;</button>
+            <div class="side-left">
+              <img src="${d.img}" alt="${d.title}">
             </div>
-            ${d.fiche ? `<div class="fiche"><span class="lead">Exemple de fiche de création personnalisée</span>${d.fiche}</div>` : ''}
-          </div>
-          <button class="arrow-btn right" onclick="changeDemo(1)">&gt;</button>
-        </div>`;
+            <div class="side-right">
+              <div class="song-title">${d.title}</div>
+              <div class="song-desc">${d.desc}</div>
+              <div class="audio-box">
+                <audio controls src="${d.mp3}"></audio>
+              </div>
+              ${d.fiche ? `<div class="fiche"><span class="lead">Exemple de fiche de création personnalisée</span>${d.fiche}</div>` : ''}
+            </div>
+            <button class="arrow-btn right" onclick="changeDemo(1)">&gt;</button>
+          </div>`;
+      } else {
+        // Rendu pour la Page 11 (CTA)
+        contentHtml = `
+          <div class="main-card">
+            <button class="arrow-btn left" onclick="changeDemo(-1)">&lt;</button>
+            <div class="side-left" style="align-items: flex-start;"> 
+                <img src="${d.img}" alt="${d.title}" style="max-width: 100%; max-height: 400px; height: auto; margin-top: 0;">
+            </div>
+            <div class="side-right cta-align">
+                <div class="song-title" style="color: #16f2a0;">${d.title}</div> <div class="song-desc">${d.desc}</div>
+                <div class="fiche" style="margin-top: 18px; padding: 17px 23px;">
+                    ${d.fiche}
+                </div>
+            </div>
+            <button class="arrow-btn right" onclick="changeDemo(1)">&gt;</button>
+          </div>`;
+      }
+
+      document.getElementById('demo-container').innerHTML = contentHtml;
+      
+      // Gestion de la visibilité des flèches
       document.querySelector('.arrow-btn.left').style.visibility = (index === 0) ? 'hidden' : 'visible';
       document.querySelector('.arrow-btn.right').style.visibility = (index === demos.length - 1) ? 'hidden' : 'visible';
     }
