@@ -10,7 +10,7 @@
       font-family: 'Montserrat', Arial, sans-serif;
       margin: 0;
       min-height: 100vh;
-      padding-bottom: 40px; /* Assure espace sous le footer */
+      padding-bottom: 40px;
       box-sizing: border-box;
     }
     .main-card {
@@ -42,18 +42,19 @@
       min-width: 350px;
       display: flex;
       flex-direction: column;
+      padding-right: 60px;
     }
-    /* Correction pour alignement vertical */
     .side-right.cta-align {
-        height: 100%; /* Important pour Flexbox */
-        justify-content: center; /* Centre verticalement le contenu */
+        height: 100%;
+        justify-content: center;
     }
-    /* Fin correction alignement vertical */
     
     .song-title {
-      font-size: 2em;
+      color: #16f2a0;
+      font-size: 1.8em;
       font-weight: bold;
       margin-bottom: 12px;
+      line-height: 1.2;
     }
     .song-desc {
       color: #ccc;
@@ -61,10 +62,7 @@
       font-size: 1em;
     }
     .audio-box {
-      background: #22232a;
-      border-radius: 13px;
-      margin-bottom: 18px;
-      padding: 14px 13px 5px 13px;
+      display: none;
     }
     audio {
       width: 100%;
@@ -84,9 +82,8 @@
     .fiche .lead {
       color: #16f2a0;
       font-weight: bold;
-      margin-bottom: 8px;
-      display: block;
       margin-bottom: 9px;
+      display: block;
       font-size: 1.1em;
     }
     .footer {
@@ -99,6 +96,7 @@
       padding-bottom: 10px;
       font-weight: 600;
     }
+    
     .arrow-btn {
       position: absolute;
       top: 50%;
@@ -107,9 +105,9 @@
       color: #27ffd6;
       border: none;
       border-radius: 50%;
-      width: 56px;
-      height: 56px;
-      font-size: 2.3em;
+      width: 120px;
+      height: 120px;
+      font-size: 5em;
       line-height: 1;
       display: flex;
       align-items: center;
@@ -119,17 +117,47 @@
       z-index: 10;
       transition: background 0.18s;
     }
+    .arrow-btn::after {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      border: 4px solid #27ffd6;
+      border-radius: 50%;
+    }
     .arrow-btn:hover {
       background: #34efb6;
     }
-    .arrow-btn.left {
-      left: -28px;
+    .arrow-btn.left { left: -60px; }
+    .arrow-btn.right { right: -60px; }
+
+    .mute-toggle-btn {
+      background: #23232b;
+      border: 2px solid #27ffd6;
+      color: #27ffd6;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 2em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px #0006;
+      transition: all 0.2s;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 20;
     }
-    .arrow-btn.right {
-      right: -28px;
+    .mute-toggle-btn:hover {
+      background: #27ffd6;
+      color: #191a1f;
+      transform: scale(1.05);
     }
     
-    /* --- Styles spécifiques Page 11 (CTA) --- */
     .cta-columns {
         display: flex;
         gap: 20px;
@@ -139,10 +167,7 @@
         align-self: center;
         padding-top: 5px;
     }
-    .cta-columns > div {
-        flex: 1;
-        min-width: 250px;
-    }
+    .cta-columns > div { flex: 1; min-width: 250px; }
     .cta-action {
         font-size: 1.6em;
         font-weight: 900;
@@ -168,37 +193,32 @@
         font-style: italic;
         line-height: 1.3;
     }
-    /* --- Fin Styles Page 11 --- */
     
     @media (max-width: 900px) {
-      body {
-        padding-bottom: 20px;
-      }
       .main-card {
         flex-direction: column;
         padding: 20px 5vw 14px 5vw;
+        margin: 20px auto;
       }
-      .side-left {
-        margin-bottom: 24px;
-      }
-      .side-right {
-        min-width: 0;
-      }
-      /* Ajustement pour Page 11 sur mobile */
-      .cta-columns {
-          flex-direction: column;
-          gap: 10px;
-      }
+      .side-right { padding-right: 0; }
       .arrow-btn {
         top: unset;
         bottom: 13px;
         transform: none;
+        width: 80px;
+        height: 80px;
+        font-size: 3em;
       }
-      .arrow-btn.left {
-        left: 24px;
+      .arrow-btn::after {
+        top: -6px; left: -6px; right: -6px; bottom: -6px;
+        border-width: 3px;
       }
-      .arrow-btn.right {
-        right: 24px;
+      .arrow-btn.left { left: 24px; }
+      .arrow-btn.right { right: 24px; }
+      .mute-toggle-btn {
+        top: 10px; right: 10px;
+        width: 45px; height: 45px;
+        font-size: 1.3em;
       }
     }
   </style>
@@ -209,201 +229,111 @@
     Une production de Megappal Project<br />
     Démos privées — accès sur invitation
   </div>
+
   <script>
     const demos = [
+      {
+        title: "Ici, la musique commence par une histoire.",
+        desc: "Chaque chanson est composée sur mesure, à partir de détails bien réels : une personne, un lien, un moment important.<br><br>Ce que vous allez entendre ne sont pas des chansons “génériques”, mais des créations uniques, pensées pour toucher quelqu’un de précis.",
+        img: "Studio Photo.jpg",
+        mp3: null,
+        fiche: "👉 Appuyez sur la flèche pour explorer nos démos",
+      },
       {
         title: "Rayon de Soleil pour Julie",
         desc: "Démo personnalisée en français pour Julie.",
         img: "0001-Rayon de Soleil (pour Julie).jpg",
         mp3: "0001-Rayon de Soleil (pour Julie).mp3",
-        fiche: `<b>Personne fêtée :</b> Julie Tremblay<br>
-<b>Âge célébré :</b> 30 ans<br>
-<b>Sexe :</b> Féminin<br>
-<b>Relation :</b> Sœur<br>
-<b>Commandé par :</b> Marie Tremblay<br>
-<b>Événement :</b> 30e anniversaire surprise<br>
-<b>Style musical :</b> Pop acoustique<br>
-<b>Ambiance :</b> Émotive et joyeuse<br>
-<b>Langue :</b> Français<br>
-<b>Détails :</b> Adore les voyages, le vin rouge, et son chat Léo. Vit à Québec.<br>
-<b>Message spécial :</b> “Ne change jamais, tu es notre rayon de soleil.”`,
+        fiche: `<b>Personne fêtée :</b> Julie Tremblay<br><b>Âge célébré :</b> 30 ans<br><b>Sexe :</b> Féminin<br><b>Relation :</b> Sœur<br><b>Commandé par :</b> Marie Tremblay<br><b>Événement :</b> 30e anniversaire surprise<br><b>Style musical :</b> Pop acoustique<br><b>Ambiance :</b> Émotive et joyeuse<br><b>Langue :</b> Français<br><b>Détails :</b> Adore les voyages, le vin rouge, et son chat Léo. Vit à Québec.<br><b>Message spécial :</b> “Ne change jamais, tu es notre rayon de soleil.”`,
       },
       {
         title: "Le Roi du BBQ (pour Sam)",
         desc: "Hommage BBQ pour Sam.",
         img: "0002-Le Roi du BBQ (pour Sam).jpg",
         mp3: "0002-Le Roi du BBQ (pour Sam).mp3",
-        fiche: `<b>Personne fêtée :</b> Samuel Dubé<br>
-<b>Âge célébré :</b> 25 ans<br>
-<b>Sexe :</b> Masculin<br>
-<b>Relation :</b> Meilleur ami<br>
-<b>Commandé par :</b> Alex Gagnon<br>
-<b>Événement :</b> Fête entre amis au chalet<br>
-<b>Style musical :</b> Pop-rock<br>
-<b>Ambiance :</b> Drôle et festive<br>
-<b>Langue :</b> Français<br>
-<b>Détails :</b> Toujours en retard, passionné de pêche et de bières artisanales.<br>
-<b>Message spécial :</b> “T’es le roi du BBQ, même en hiver.”`,
+        fiche: `<b>Personne fêtée :</b> Samuel Dubé<br><b>Âge célébré :</b> 25 ans<br><b>Sexe :</b> Masculin<br><b>Relation :</b> Meilleur ami<br><b>Commandé par :</b> Alex Gagnon<br><b>Événement :</b> Fête entre amis au chalet<br><b>Style musical :</b> Pop-rock<br><b>Ambiance :</b> Drôle et festive<br><b>Langue :</b> Français<br><b>Détails :</b> Toujours en retard, passionné de pêche et de bières artisanales.<br><b>Message spécial :</b> “T’es le roi du BBQ, même en hiver.”`,
       },
       {
         title: "Mon Roc, Mon Aventure (pour Marc-André)",
         desc: "Démo dédiée à Marc-André.",
         img: "0003-Mon Roc, Mon Aventure (pour Marc-André).jpg",
         mp3: "0003-Mon Roc, Mon Aventure (pour Marc-André).mp3",
-        fiche: `<b>Personne fêtée :</b> Marc-André Lavoie<br>
-<b>Âge célébré :</b> 40 ans<br>
-<b>Sexe :</b> Masculin<br>
-<b>Relation :</b> Conjoint<br>
-<b>Commandé par :</b> Sophie Lavoie<br>
-<b>Événement :</b> Souper romantique 40e anniversaire<br>
-<b>Style musical :</b> Ballade pop<br>
-<b>Ambiance :</b> Romantique et tendre<br>
-<b>Langue :</b> Français<br>
-<b>Détails :</b> Amoureux de la nature, bricoleur, père de deux enfants (Éli et Maé).<br>
-<b>Message spécial :</b> “Tu restes mon roc, mon amour, mon aventure.”`,
+        fiche: `<b>Personne fêtée :</b> Marc-André Lavoie<br><b>Âge célébré :</b> 40 ans<br><b>Sexe :</b> Masculin<br><b>Relation :</b> Conjoint<br><b>Commandé par :</b> Sophie Lavoie<br><b>Événement :</b> Souper romantique 40e anniversaire<br><b>Style musical :</b> Ballade pop<br><b>Ambiance :</b> Romantique et tendre<br><b>Langue :</b> Français<br><b>Détails :</b> Amoureux de la nature, bricoleur, père de deux enfants (Éli et Maé).<br><b>Message spécial :</b> “Tu restes mon roc, mon amour, mon aventure.”`,
       },
       {
         title: "50 Ans de Légende (pour Pat)",
         desc: "Démo anniversaire pour Pat.",
         img: "0004-50 Ans de Légende (pour Pat).jpg",
         mp3: "0004-50 Ans de Légende (pour Pat).mp3",
-        fiche: `<b>Personne fêtée :</b> Patrick “Pat” Lemieux<br>
-<b>Âge célébré :</b> 50 ans<br>
-<b>Sexe :</b> Masculin<br>
-<b>Relation :</b> Collègue de travail<br>
-<b>Commandé par :</b> Kevin Morin<br>
-<b>Événement :</b> Party de bureau pour ses 50 ans<br>
-<b>Style musical :</b> Rock’n’roll classique<br>
-<b>Ambiance :</b> Humour et camaraderie<br>
-<b>Langue :</b> Français<br>
-<b>Détails :</b> Toujours la blague facile, fan d’Elvis et de motos Harley.<br>
-<b>Message spécial :</b> “50 ans de légende, et toujours aussi jeune dans sa tête !”`,
+        fiche: `<b>Personne fêtée :</b> Patrick “Pat” Lemieux<br><b>Âge célébré :</b> 50 ans<br><b>Sexe :</b> Masculin<br><b>Relation :</b> Collègue de travail<br><b>Commandé par :</b> Kevin Morin<br><b>Événement :</b> Party de bureau pour ses 50 ans<br><b>Style musical :</b> Rock’n’roll classique<br><b>Ambiance :</b> Humour et camaraderie<br><b>Langue :</b> Français<br><b>Détails :</b> Toujours la blague facile, fan d’Elvis et de motos Harley.<br><b>Message spécial :</b> “50 ans de légende, et toujours aussi jeune dans sa tête !”`,
       },
       {
         title: "Rêve Grand, Ma Petite Étoile (pour Zoé)",
         desc: "Démo longtemps rêvée pour Zoé.",
         img: "0005-Rêve Grand, Ma Petite Étoile (pour Zoé).jpg",
         mp3: "0005-Rêve Grand, Ma Petite Étoile (pour Zoé).mp3",
-        fiche: `<b>Personne fêtée :</b> Zoé Fortin<br>
-<b>Âge célébré :</b> 10 ans<br>
-<b>Sexe :</b> Féminin<br>
-<b>Relation :</b> Maman<br>
-<b>Commandé par :</b> Élise Fortin<br>
-<b>Événement :</b> Fête d’enfant à la maison<br>
-<b>Style musical :</b> Pop joyeux (style Disney)<br>
-<b>Ambiance :</b> Magique et enfantine<br>
-<b>Langue :</b> Français<br>
-<b>Détails :</b> Aime les licornes, la danse et les cupcakes.<br>
-<b>Message spécial :</b> “Rêve grand, ma petite étoile.”`,
+        fiche: `<b>Personne fêtée :</b> Zoé Fortin<br><b>Âge célébré :</b> 10 ans<br><b>Sexe :</b> Féminin<br><b>Relation :</b> Maman<br><b>Commandé par :</b> Élise Fortin<br><b>Événement :</b> Fête d’enfant à la maison<br><b>Style musical :</b> Pop joyeux (style Disney)<br><b>Ambiance :</b> Magique et enfantine<br><b>Langue :</b> Français<br><b>Détails :</b> Aime les licornes, la danse et les cupcakes.<br><b>Message spécial :</b> “Rêve grand, ma petite étoile.”`,
       },
       {
         title: "Café & Lundi (pour Annie)",
         desc: "Rituel du lundi matin pour Annie.",
         img: "0006-Café & Lundi (pour Annie).jpg",
         mp3: "0006-Café & Lundi (pour Annie).mp3",
-        fiche: `<b>Personne fêtée :</b> Annie Bouchard<br>
-<b>Âge célébré :</b> 35 ans<br>
-<b>Sexe :</b> Féminin<br>
-<b>Relation :</b> Collègue proche<br>
-<b>Commandé par :</b> David Tremblay<br>
-<b>Événement :</b> Fête surprise au bureau<br>
-<b>Style musical :</b> Jazz-swing<br>
-<b>Ambiance :</b> Classe, drôle et légère<br>
-<b>Langue :</b> Français<br>
-<b>Détails :</b> Toujours élégante, adore le café et fait des blagues sarcastiques.<br>
-<b>Message spécial :</b> “Annie sans café, c’est comme lundi sans soleil.”`,
+        fiche: `<b>Personne fêtée :</b> Annie Bouchard<br><b>Âge célébré :</b> 35 ans<br><b>Sexe :</b> Féminin<br><b>Relation :</b> Collègue proche<br><b>Commandé par :</b> David Tremblay<br><b>Événement :</b> Fête surprise au bureau<br><b>Style musical :</b> Jazz-swing<br><b>Ambiance :</b> Classe, drôle et légère<br><b>Langue :</b> Français<br><b>Détails :</b> Toujours élégante, adore le café et fait des blagues sarcastiques.<br><b>Message spécial :</b> “Annie sans café, c’est comme lundi sans soleil.”`,
       },
       {
         title: "Le Rire des Vagues (pour Jean)",
         desc: "Vagues et souvenirs pour Jean.",
         img: "0007-Le Rire des Vagues (pour Jean).jpg",
         mp3: "0007-Le Rire des Vagues (pour Jean).mp3",
-        fiche: `<b>Personne fêtée :</b> Jean Leblanc<br>
-<b>Âge célébré :</b> 60 ans<br>
-<b>Sexe :</b> Masculin<br>
-<b>Relation :</b> Fille<br>
-<b>Commandé par :</b> Caroline Leblanc<br>
-<b>Événement :</b> Fête familiale<br>
-<b>Style musical :</b> Folk acoustique<br>
-<b>Ambiance :</b> Nostalgique et chaleureuse<br>
-<b>Langue :</b> Français<br>
-<b>Détails :</b> Ancien marin, aime jouer de la guitare, raconte toujours ses histoires du fleuve.<br>
-<b>Message spécial :</b> “Papa, ton rire fait encore danser les vagues.”`,
+        fiche: `<b>Personne fêtée :</b> Jean Leblanc<br><b>Âge célébré :</b> 60 ans<br><b>Sexe :</b> Masculin<br><b>Relation :</b> Fille<br><b>Commandé par :</b> Caroline Leblanc<br><b>Événement :</b> Fête familiale<br><b>Style musical :</b> Folk acoustique<br><b>Ambiance :</b> Nostalgique et chaleureuse<br><b>Langue :</b> Français<br><b>Détails :</b> Ancien marin, aime jouer de la guitare, raconte toujours ses histoires du fleuve.<br><b>Message spécial :</b> “Papa, ton rire fait encore danser les vagues.”`,
       },
       {
         title: "Le Monde Est à Toi (pour Clara)",
         desc: "Démo motivation pour Clara.",
         img: "0008-Le Monde Est à Toi (pour Clara).jpg",
         mp3: "0008-Le Monde Est à Toi (pour Clara).mp3",
-        fiche: `<b>Personne fêtée :</b> Clara Côté<br>
-<b>Âge célébré :</b> 18 ans<br>
-<b>Sexe :</b> Féminin<br>
-<b>Relation :</b> Maman<br>
-<b>Commandé par :</b> Julie Coté<br>
-<b>Événement :</b> 18e anniversaire (fête de passage)<br>
-<b>Style musical :</b> Pop électro<br>
-<b>Ambiance :</b> Inspirante et énergique<br>
-<b>Langue :</b> Français<br>
-<b>Détails :</b> Ado passionnée de photo, d’astrologie et de voyage.<br>
-<b>Message spécial :</b> “Le monde est à toi, ma belle lumière.”`,
+        fiche: `<b>Personne fêtée :</b> Clara Côté<br><b>Âge célébré :</b> 18 ans<br><b>Sexe :</b> Féminin<br><b>Relation :</b> Maman<br><b>Commandé par :</b> Julie Coté<br><b>Événement :</b> 18e anniversaire (fête de passage)<br><b>Style musical :</b> Pop électro<br><b>Ambiance :</b> Inspirante et énergique<br><b>Langue :</b> Français<br><b>Détails :</b> Ado passionnée de photo, d’astrologie et de voyage.<br><b>Message spécial :</b> “Le monde est à toi, ma belle lumière.”`,
       },
       {
         title: "Plus Que Les Pâtes du Monde (pour Mélanie)",
         desc: "Démo gourmande pour Mélanie.",
         img: "0009-Plus Que Les Pâtes du Monde (pour Mélanie).jpg",
         mp3: "0009-Plus Que Les Pâtes du Monde (pour Mélanie).mp3",
-        fiche: `<b>Personne fêtée :</b> Mélanie Girard<br>
-<b>Âge célébré :</b> 28 ans<br>
-<b>Sexe :</b> Féminin<br>
-<b>Relation :</b> Conjointe<br>
-<b>Commandé par :</b> Tommy Beaulieu<br>
-<b>Événement :</b> Fête surprise à la maison<br>
-<b>Style musical :</b> Pop romantique<br>
-<b>Ambiance :</b> Douce et sincère<br>
-<b>Langue :</b> Français<br>
-<b>Détails :</b> Elle adore les couchers de soleil et la cuisine italienne.<br>
-<b>Message spécial :</b> “Je t’aime plus que toutes les pâtes du monde.”`,
+        fiche: `<b>Personne fêtée :</b> Mélanie Girard<br><b>Âge célébré :</b> 28 ans<br><b>Sexe :</b> Féminin<br><b>Relation :</b> Conjointe<br><b>Commandé par :</b> Tommy Beaulieu<br><b>Événement :</b> Fête surprise à la maison<br><b>Style musical :</b> Pop romantique<br><b>Ambiance :</b> Douce et sincère<br><b>Langue :</b> Français<br><b>Détails :</b> Elle adore les couchers de soleil et la cuisine italienne.<br><b>Message spécial :</b> “Je t’aime plus que toutes les pâtes du monde.”`,
       },
       {
         title: "Ma Petite Tornade (pour Léa)",
         desc: "Tornade d’amour pour Léa.",
         img: "0010-Ma Petite Tornade (pour lea).jpg",
         mp3: "0010-Ma Petite Tornade (pour lea).mp3",
-        fiche: `<b>Personne fêtée :</b> Léa Dion<br>
-<b>Âge célébré :</b> 5 ans<br>
-<b>Sexe :</b> Féminin<br>
-<b>Relation :</b> Papa<br>
-<b>Commandé par :</b> Frédéric Dion<br>
-<b>Événement :</b> Fête d’enfant au parc<br>
-<b>Style musical :</b> Pop pour enfants (style comique et adorable)<br>
-<b>Ambiance :</b> Enjouée et ludique<br>
-<b>Langue :</b> Français<br>
-<b>Détails :</b> Aime les arcs-en-ciel, les bulles et les histoires de princesses.<br>
-<b>Message spécial :</b> “Léa, ma petite tornade d’amour.”`,
+        fiche: `<b>Personne fêtée :</b> Léa Dion<br><b>Âge célébré :</b> 5 ans<br><b>Sexe :</b> Féminin<br><b>Relation :</b> Papa<br><b>Commandé par :</b> Frédéric Dion<br><b>Événement :</b> Fête d’enfant au parc<br><b>Style musical :</b> Pop pour enfants (style comique et adorable)<br><b>Ambiance :</b> Enjouée et ludique<br><b>Langue :</b> Français<br><b>Détails :</b> Aime les arcs-en-ciel, les bulles et les histoires de princesses.<br><b>Message spécial :</b> “Léa, ma petite tornade d’amour.”`,
       },
       {
         title: "CRÉEZ VOTRE CADEAU ULTIME.",
         desc: "La chanson sur mesure, un souvenir qui dure pour toujours.",
-        img: "cta-image.jpg", /* Image générique ou représentative du service. */
-        mp3: null, // Pas de fichier audio sur cette page
+        img: "cta-image.jpg",
+        mp3: "NE PARTEZ PAS SANS VOTRE CHANSON.MP3",
         fiche: `
             <div class="cta-columns">
                 <div class="column-left">
-                    <h3 style="margin: 0 0 5px 0; color: #16f2a0;">Pourquoi choisir une chanson sur mesure ?</h3> <ul style="list-style: none; padding-left: 0; padding-top: 0; margin: 0;"> <li style="margin-bottom: 5px;"><strong>★ 100% Personnalisé :</strong> Votre histoire, vos anecdotes, vos messages... transformés en musique.</li>
+                    <h3 style="margin: 0 0 5px 0; color: #16f2a0;">Pourquoi choisir une chanson sur mesure ?</h3>
+                    <ul style="list-style: none; padding-left: 0; padding-top: 0; margin: 0;">
+                        <li style="margin-bottom: 5px;"><strong>★ 100% Personnalisé :</strong> Votre histoire, vos anecdotes, vos messages... transformés en musique.</li>
                         <li style="margin-bottom: 5px;"><strong>★ Unicité Garantie :</strong> Une œuvre originale composée uniquement pour vous et votre proche.</li>
                         <li style="margin-bottom: 5px;"><strong>★ Le Cadeau qui Touche :</strong> Bien plus qu'un objet, c'est une preuve d'amour et d'attention inégalée.</li>
                         <li style="margin-bottom: 5px;"><strong>★ Qualité Professionnelle :</strong> Production et composition par <strong>Megappal Project</strong>.</li>
                     </ul>
                 </div>
-
                 <div class="column-right">
-                    <h3 style="margin: 0 0 5px 0; color: #16f2a0;">Le processus est simple et rapide</h3> <ol style="text-align: left; padding-left: 25px; padding-top: 0; margin: 30px 0 0 0;"> <li><strong>Achetez le service :</strong> Commandez votre chanson directement à la caisse de cette boutique.</li>
+                    <h3 style="margin: 0 0 5px 0; color: #16f2a0;">Le processus est simple et rapide</h3>
+                    <ol style="text-align: left; padding-left: 25px; padding-top: 0; margin: 30px 0 0 0;">
+                        <li><strong>Achetez le service :</strong> Commandez votre chanson directement à la caisse de cette boutique.</li>
                         <li><strong>Remplissez le Formulaire :</strong> Un employé vous fournira le lien de notre formulaire pour nous donner les détails créatifs.</li>
                         <li><strong>Réception :</strong> Recevez votre chanson en fichier MP3 de haute qualité, prête à être offerte !</li>
                     </ol>
                 </div>
             </div>
-
             <div class="cta-box">
                 <h2 style="color: #191a1f; margin-top: 0; margin-bottom: 5px; font-size: 1.6em;">NE PARTEZ PAS SANS VOTRE CHANSON !</h2>
                 <p style="color: #191a1f; margin: 0 0 10px 0;">Le service est uniquement disponible via nos marchands partenaires.</p>
@@ -415,52 +345,80 @@
     ];
 
     let idx = 0;
+    let isGlobalMuted = false;
+
+    function toggleMute() {
+      isGlobalMuted = !isGlobalMuted;
+      const audio = document.querySelector('audio');
+      const btn = document.querySelector('.mute-toggle-btn');
+      if (audio) audio.muted = isGlobalMuted;
+      if (btn) btn.textContent = isGlobalMuted ? "🔇" : "🔊";
+    }
 
     function renderDemo(index) {
       const d = demos[index];
       let contentHtml;
+      const muteButton = d.mp3 ? `<button class="mute-toggle-btn" onclick="toggleMute()">${isGlobalMuted ? "🔇" : "🔊"}</button>` : '';
 
-      if (d.mp3) {
-        // Rendu pour les pages de démos (1 à 10)
+      if (index === demos.length - 1) {
         contentHtml = `
           <div class="main-card">
             <button class="arrow-btn left" onclick="changeDemo(-1)">&lt;</button>
-            <div class="side-left">
-              <img src="${d.img}" alt="${d.title}">
-            </div>
-            <div class="side-right">
-              <div class="song-title">${d.title}</div>
-              <div class="song-desc">${d.desc}</div>
-              <div class="audio-box">
-                <audio controls src="${d.mp3}"></audio>
-              </div>
-              ${d.fiche ? `<div class="fiche"><span class="lead">Exemple de fiche de création personnalisée</span>${d.fiche}</div>` : ''}
-            </div>
-            <button class="arrow-btn right" onclick="changeDemo(1)">&gt;</button>
-          </div>`;
-      } else {
-        // Rendu pour la Page 11 (CTA)
-        contentHtml = `
-          <div class="main-card">
-            <button class="arrow-btn left" onclick="changeDemo(-1)">&lt;</button>
+            ${muteButton}
             <div class="side-left" style="align-items: flex-start;"> 
-                <img src="${d.img}" alt="${d.title}" style="max-width: 100%; max-height: 400px; height: auto; margin-top: 0;">
+                <img src="${d.img}" alt="${d.title}" style="max-width: 100%; max-height: 400px; height: auto;">
             </div>
             <div class="side-right cta-align">
-                <div class="song-title" style="color: #16f2a0;">${d.title}</div> <div class="song-desc">${d.desc}</div>
+                <div class="song-title">${d.title}</div>
+                <div class="song-desc">${d.desc}</div>
+                <div class="audio-box"><audio src="${d.mp3}"></audio></div>
                 <div class="fiche" style="margin-top: 18px; padding: 17px 23px;">
                     ${d.fiche}
                 </div>
             </div>
             <button class="arrow-btn right" onclick="changeDemo(1)">&gt;</button>
           </div>`;
+      } else if (d.mp3) {
+        contentHtml = `
+          <div class="main-card">
+            <button class="arrow-btn left" onclick="changeDemo(-1)">&lt;</button>
+            ${muteButton}
+            <div class="side-left">
+              <img src="${d.img}" alt="${d.title}">
+            </div>
+            <div class="side-right">
+              <div class="song-title">${d.title}</div>
+              <div class="song-desc">${d.desc}</div>
+              <div class="audio-box"><audio src="${d.mp3}"></audio></div>
+              ${d.fiche ? `<div class="fiche"><span class="lead">Exemple de fiche de création personnalisée</span>${d.fiche}</div>` : ''}
+            </div>
+            <button class="arrow-btn right" onclick="changeDemo(1)">&gt;</button>
+          </div>`;
+      } else {
+        contentHtml = `
+          <div class="main-card">
+            <button class="arrow-btn left" onclick="changeDemo(-1)">&lt;</button>
+            <div class="side-left">
+              <img src="${d.img}" alt="${d.title}">
+            </div>
+            <div class="side-right cta-align">
+              <div class="song-title">${d.title}</div>
+              <div class="song-desc">${d.desc}</div>
+              <div class="fiche">${d.fiche}</div>
+            </div>
+            <button class="arrow-btn right" onclick="changeDemo(1)">&gt;</button>
+          </div>`;
       }
 
       document.getElementById('demo-container').innerHTML = contentHtml;
-      
-      // Gestion de la visibilité des flèches
       document.querySelector('.arrow-btn.left').style.visibility = (index === 0) ? 'hidden' : 'visible';
       document.querySelector('.arrow-btn.right').style.visibility = (index === demos.length - 1) ? 'hidden' : 'visible';
+
+      const audio = document.querySelector('audio');
+      if (audio && d.mp3) {
+          audio.muted = isGlobalMuted;
+          audio.play().catch(e => console.log("Interaction requise pour l'audio"));
+      }
     }
 
     function changeDemo(inc) {
