@@ -281,49 +281,46 @@
       }
     ];
 
-    // --- CACHE AUDIO POUR ÉLIMINER LE DÉLAI ---
-    const audioCache = {};
-    
-    function preloadAllAudio() {
-      demos.forEach((d, i) => {
-        if (d.mp3) {
-          const audio = new Audio();
-          audio.src = d.mp3;
-          audio.preload = "auto";
-          audioCache[i] = audio;
-        }
-      });
-    }
-
+    // GESTION AUDIO INTELLIGENTE
+    const audioObjects = {};
     let idx = 0;
     let isGlobalMuted = false;
 
+    // Fonction pour charger UN son spécifique proprement
+    function getAudio(index) {
+      if (!demos[index].mp3) return null;
+      if (!audioObjects[index]) {
+        audioObjects[index] = new Audio(demos[index].mp3);
+        audioObjects[index].preload = "auto";
+      }
+      return audioObjects[index];
+    }
+
     function toggleMute() {
       isGlobalMuted = !isGlobalMuted;
-      const currentAudio = audioCache[idx];
+      const current = getAudio(idx);
       const btn = document.querySelector('.mute-toggle-btn');
-      if (currentAudio) currentAudio.muted = isGlobalMuted;
+      if (current) current.muted = isGlobalMuted;
       if (btn) btn.textContent = isGlobalMuted ? "🔇" : "🔊";
     }
 
     function renderDemo(index) {
       const d = demos[index];
-      let contentHtml;
-      const muteButton = d.mp3 ? `<button class="mute-toggle-btn" onclick="toggleMute()">${isGlobalMuted ? "🔇" : "🔊"}</button>` : '';
-
-      // Arrêter tous les sons en cours
-      Object.values(audioCache).forEach(a => {
+      
+      // 1. Arrêter tous les sons en cours immédiatement
+      Object.values(audioObjects).forEach(a => {
         a.pause();
         a.currentTime = 0;
       });
 
-      contentHtml = `
+      // 2. Préparer l'affichage
+      const muteButton = d.mp3 ? `<button class="mute-toggle-btn" onclick="toggleMute()">${isGlobalMuted ? "🔇" : "🔊"}</button>` : '';
+
+      const contentHtml = `
         <div class="main-card">
           <button class="arrow-btn left" onclick="changeDemo(-1)">&lt;</button>
           ${muteButton}
-          <div class="side-left">
-            <img src="${d.img}" alt="${d.title}">
-          </div>
+          <div class="side-left"><img src="${d.img}" alt="${d.title}"></div>
           <div class="side-right ${!d.mp3 ? 'cta-align' : ''}">
             <div class="song-title">${d.title}</div>
             <div class="song-desc">${d.desc}</div>
@@ -336,11 +333,16 @@
       document.querySelector('.arrow-btn.left').style.visibility = (index === 0) ? 'hidden' : 'visible';
       document.querySelector('.arrow-btn.right').style.visibility = (index === demos.length - 1) ? 'hidden' : 'visible';
 
-      // Jouer instantanément depuis le cache
-      if (audioCache[index]) {
-          const audio = audioCache[index];
-          audio.muted = isGlobalMuted;
-          audio.play().catch(e => console.log("Attente d'interaction utilisateur..."));
+      // 3. Lancer le son actuel
+      const currentAudio = getAudio(index);
+      if (currentAudio) {
+        currentAudio.muted = isGlobalMuted;
+        currentAudio.play().catch(e => console.log("Clic requis"));
+      }
+
+      // 4. STRATÉGIE PRO : Précharger discrètement la chanson SUIVANTE uniquement
+      if (index + 1 < demos.length) {
+        getAudio(index + 1); 
       }
     }
 
@@ -351,8 +353,7 @@
       renderDemo(idx);
     }
 
-    // Initialisation
-    preloadAllAudio();
+    // Lancer la première page
     renderDemo(0);
 
     document.addEventListener('keydown', function(e){
