@@ -65,7 +65,6 @@
       margin-bottom: 16px;
       font-size: 1em;
     }
-    .audio-box { display: none; }
     
     .fiche {
       background: #23232b;
@@ -282,14 +281,28 @@
       }
     ];
 
+    // --- CACHE AUDIO POUR ÉLIMINER LE DÉLAI ---
+    const audioCache = {};
+    
+    function preloadAllAudio() {
+      demos.forEach((d, i) => {
+        if (d.mp3) {
+          const audio = new Audio();
+          audio.src = d.mp3;
+          audio.preload = "auto";
+          audioCache[i] = audio;
+        }
+      });
+    }
+
     let idx = 0;
     let isGlobalMuted = false;
 
     function toggleMute() {
       isGlobalMuted = !isGlobalMuted;
-      const audio = document.querySelector('audio');
+      const currentAudio = audioCache[idx];
       const btn = document.querySelector('.mute-toggle-btn');
-      if (audio) audio.muted = isGlobalMuted;
+      if (currentAudio) currentAudio.muted = isGlobalMuted;
       if (btn) btn.textContent = isGlobalMuted ? "🔇" : "🔊";
     }
 
@@ -297,6 +310,12 @@
       const d = demos[index];
       let contentHtml;
       const muteButton = d.mp3 ? `<button class="mute-toggle-btn" onclick="toggleMute()">${isGlobalMuted ? "🔇" : "🔊"}</button>` : '';
+
+      // Arrêter tous les sons en cours
+      Object.values(audioCache).forEach(a => {
+        a.pause();
+        a.currentTime = 0;
+      });
 
       contentHtml = `
         <div class="main-card">
@@ -308,7 +327,6 @@
           <div class="side-right ${!d.mp3 ? 'cta-align' : ''}">
             <div class="song-title">${d.title}</div>
             <div class="song-desc">${d.desc}</div>
-            ${d.mp3 ? `<div class="audio-box"><audio src="${d.mp3}"></audio></div>` : ''}
             <div class="fiche">${index === 0 ? d.fiche : (d.mp3 ? (index === demos.length - 1 ? d.fiche : `<span class="lead">Exemple de fiche de création personnalisée</span>${d.fiche}`) : d.fiche)}</div>
           </div>
           <button class="arrow-btn right" onclick="changeDemo(1)">&gt;</button>
@@ -318,10 +336,11 @@
       document.querySelector('.arrow-btn.left').style.visibility = (index === 0) ? 'hidden' : 'visible';
       document.querySelector('.arrow-btn.right').style.visibility = (index === demos.length - 1) ? 'hidden' : 'visible';
 
-      const audio = document.querySelector('audio');
-      if (audio && d.mp3) {
+      // Jouer instantanément depuis le cache
+      if (audioCache[index]) {
+          const audio = audioCache[index];
           audio.muted = isGlobalMuted;
-          audio.play().catch(e => console.log("Interaction requise"));
+          audio.play().catch(e => console.log("Attente d'interaction utilisateur..."));
       }
     }
 
@@ -332,6 +351,8 @@
       renderDemo(idx);
     }
 
+    // Initialisation
+    preloadAllAudio();
     renderDemo(0);
 
     document.addEventListener('keydown', function(e){
