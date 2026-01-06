@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>PRODUCTION MEGAPPAL PROJECT</title>
   <style>
     body {
@@ -10,20 +11,23 @@
       font-family: 'Montserrat', Arial, sans-serif;
       margin: 0;
       min-height: 100vh;
-      padding-bottom: 40px;
+      padding: 0 10px 40px 10px;
       box-sizing: border-box;
+      overflow-x: hidden;
     }
     .main-card {
       max-width: 1050px;
+      width: 100%;
       margin: 40px auto 10px auto;
       border-radius: 16px;
       background: #191a1f;
       box-shadow: 0 4px 32px #000a;
-      padding: 32px 32px 28px 32px;
+      padding: 32px;
       display: flex;
       align-items: flex-start;
       gap: 40px;
       position: relative;
+      box-sizing: border-box;
     }
     .side-left {
       flex: 1;
@@ -33,19 +37,19 @@
     }
     .side-left img {
       max-width: 270px;
+      width: 100%;
+      height: auto;
       border-radius: 10px;
       box-shadow: 0 2px 14px #0008;
-      background: #222;
     }
     .side-right {
       flex: 2;
-      min-width: 350px;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       padding-right: 60px;
     }
     .side-right.cta-align {
-        height: 100%;
         justify-content: center;
     }
     
@@ -61,15 +65,8 @@
       margin-bottom: 16px;
       font-size: 1em;
     }
-    .audio-box {
-      display: none;
-    }
-    audio {
-      width: 100%;
-      margin-top: 4px;
-      border-radius: 8px;
-      background: #212127;
-    }
+    .audio-box { display: none; }
+    
     .fiche {
       background: #23232b;
       border-radius: 14px;
@@ -78,25 +75,15 @@
       font-size: 1em;
       margin-top: 18px;
       box-shadow: 0 2px 20px #0004;
+      word-wrap: break-word;
     }
     .fiche .lead {
       color: #16f2a0;
       font-weight: bold;
       margin-bottom: 9px;
       display: block;
-      font-size: 1.1em;
     }
-    .footer {
-      max-width: 1050px;
-      margin: 0 auto;
-      text-align: center;
-      letter-spacing: 2px;
-      color: #aaa;
-      padding-top: 6px;
-      padding-bottom: 10px;
-      font-weight: 600;
-    }
-    
+
     .arrow-btn {
       position: absolute;
       top: 50%;
@@ -108,27 +95,19 @@
       width: 120px;
       height: 120px;
       font-size: 5em;
-      line-height: 1;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 2px 16px #0008;
       z-index: 10;
       transition: background 0.18s;
     }
     .arrow-btn::after {
       content: "";
       position: absolute;
-      top: -10px;
-      left: -10px;
-      right: -10px;
-      bottom: -10px;
+      top: -10px; left: -10px; right: -10px; bottom: -10px;
       border: 4px solid #27ffd6;
       border-radius: 50%;
-    }
-    .arrow-btn:hover {
-      background: #34efb6;
     }
     .arrow-btn.left { left: -60px; }
     .arrow-btn.right { right: -60px; }
@@ -145,86 +124,45 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 15px #0006;
-      transition: all 0.2s;
       position: absolute;
       top: 20px;
       right: 20px;
       z-index: 20;
     }
-    .mute-toggle-btn:hover {
-      background: #27ffd6;
-      color: #191a1f;
-      transform: scale(1.05);
+
+    .footer {
+      text-align: center;
+      color: #aaa;
+      padding: 20px 0;
+      font-weight: 600;
     }
-    
-    .cta-columns {
-        display: flex;
-        gap: 20px;
-        text-align: left;
-        margin: 0;
-        max-width: 800px;
-        align-self: center;
-        padding-top: 5px;
-    }
+
+    .cta-columns { display: flex; gap: 20px; text-align: left; margin: 0; max-width: 800px; align-self: center; padding-top: 5px; }
     .cta-columns > div { flex: 1; min-width: 250px; }
-    .cta-action {
-        font-size: 1.6em;
-        font-weight: 900;
-        margin: 15px auto !important;
-        padding: 10px 20px;
-        background: #34efb6;
-        color: #191a1f;
-        border-radius: 8px;
-        display: inline-block;
-        box-shadow: 0 4px 10px #0008;
+    .cta-action { font-size: 1.6em; font-weight: 900; margin: 15px auto !important; padding: 10px 20px; background: #34efb6; color: #191a1f; border-radius: 8px; display: inline-block; box-shadow: 0 4px 10px #0008; }
+    .cta-box { margin-top: 15px; padding: 15px 25px; background: #27ffd6; border-radius: 12px; box-shadow: 0 4px 15px #0008; text-align: center; }
+    .cta-wrap { word-wrap: break-word; font-style: italic; line-height: 1.3; color: #191a1f; }
+
+    @media (max-width: 1150px) {
+      .arrow-btn.left { left: 10px; }
+      .arrow-btn.right { right: 10px; }
     }
-    .cta-box {
-        margin-top: 15px;
-        padding: 15px 25px;
-        background: #27ffd6;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px #0008;
-        text-align: center;
-    }
-    .cta-wrap {
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        font-style: italic;
-        line-height: 1.3;
-    }
-    
+
     @media (max-width: 900px) {
-      .main-card {
-        flex-direction: column;
-        padding: 20px 5vw 14px 5vw;
-        margin: 20px auto;
-      }
-      .side-right { padding-right: 0; }
-      .arrow-btn {
-        top: unset;
-        bottom: 13px;
-        transform: none;
-        width: 80px;
-        height: 80px;
-        font-size: 3em;
-      }
-      .arrow-btn::after {
-        top: -6px; left: -6px; right: -6px; bottom: -6px;
-        border-width: 3px;
-      }
-      .arrow-btn.left { left: 24px; }
-      .arrow-btn.right { right: 24px; }
-      .mute-toggle-btn {
-        top: 10px; right: 10px;
-        width: 45px; height: 45px;
-        font-size: 1.3em;
-      }
+      .main-card { flex-direction: column; padding: 60px 20px 20px 20px; margin-top: 20px; gap: 20px; }
+      .side-right { padding-right: 0; width: 100%; }
+      .side-left img { max-width: 200px; }
+      .arrow-btn { width: 70px; height: 70px; font-size: 2.5em; top: 40%; }
+      .arrow-btn::after { top: -5px; left: -5px; right: -5px; bottom: -5px; border-width: 3px; }
+      .song-title { font-size: 1.4em; }
+      .cta-columns { flex-direction: column; }
     }
   </style>
 </head>
 <body>
+
   <div id="demo-container"></div>
+  
   <div class="footer">
     Une production de Megappal Project<br />
     Démos privées — accès sur invitation
@@ -235,7 +173,7 @@
       {
         title: "Ici, la musique commence par une histoire.",
         desc: "Chaque chanson est composée sur mesure, à partir de détails bien réels : une personne, un lien, un moment important.<br><br>Ce que vous allez entendre ne sont pas des chansons “génériques”, mais des créations uniques, pensées pour toucher quelqu’un de précis.",
-        img: "studio-photo.jpg", /* Mis à jour */
+        img: "studio-photo.jpg",
         mp3: null,
         fiche: "👉 Appuyez sur la flèche pour explorer nos démos",
       },
@@ -313,7 +251,7 @@
         title: "CRÉEZ VOTRE CADEAU ULTIME.",
         desc: "La chanson sur mesure, un souvenir qui dure pour toujours.",
         img: "cta-image.jpg",
-        mp3: "exit-song.mp3", /* Mis à jour */
+        mp3: "exit-song.mp3",
         fiche: `
             <div class="cta-columns">
                 <div class="column-left">
@@ -338,7 +276,7 @@
                 <h2 style="color: #191a1f; margin-top: 0; margin-bottom: 5px; font-size: 1.6em;">NE PARTEZ PAS SANS VOTRE CHANSON !</h2>
                 <p style="color: #191a1f; margin: 0 0 10px 0;">Le service est uniquement disponible via nos marchands partenaires.</p>
                 <p class="cta-action">PARLEZ-EN À UN EMPLOYÉ !</p>
-                <p class="cta-wrap" style="color: #191a1f; margin-top: 10px; margin-bottom: 0;">Il ou elle vous guidera pour l'achat et vous remettra un lien vers votre formulaire de composition personnalisé.</p>
+                <p class="cta-wrap" style="margin-top: 10px; margin-bottom: 0;">Il ou elle vous guidera pour l'achat et vous remettra un lien vers votre formulaire de composition personnalisé.</p>
             </div>
         `,
       }
@@ -360,55 +298,21 @@
       let contentHtml;
       const muteButton = d.mp3 ? `<button class="mute-toggle-btn" onclick="toggleMute()">${isGlobalMuted ? "🔇" : "🔊"}</button>` : '';
 
-      if (index === demos.length - 1) {
-        contentHtml = `
-          <div class="main-card">
-            <button class="arrow-btn left" onclick="changeDemo(-1)">&lt;</button>
-            ${muteButton}
-            <div class="side-left" style="align-items: flex-start;"> 
-                <img src="${d.img}" alt="${d.title}" style="max-width: 100%; max-height: 400px; height: auto;">
-            </div>
-            <div class="side-right cta-align">
-                <div class="song-title">${d.title}</div>
-                <div class="song-desc">${d.desc}</div>
-                <div class="audio-box"><audio src="${d.mp3}"></audio></div>
-                <div class="fiche" style="margin-top: 18px; padding: 17px 23px;">
-                    ${d.fiche}
-                </div>
-            </div>
-            <button class="arrow-btn right" onclick="changeDemo(1)">&gt;</button>
-          </div>`;
-      } else if (d.mp3) {
-        contentHtml = `
-          <div class="main-card">
-            <button class="arrow-btn left" onclick="changeDemo(-1)">&lt;</button>
-            ${muteButton}
-            <div class="side-left">
-              <img src="${d.img}" alt="${d.title}">
-            </div>
-            <div class="side-right">
-              <div class="song-title">${d.title}</div>
-              <div class="song-desc">${d.desc}</div>
-              <div class="audio-box"><audio src="${d.mp3}"></audio></div>
-              ${d.fiche ? `<div class="fiche"><span class="lead">Exemple de fiche de création personnalisée</span>${d.fiche}</div>` : ''}
-            </div>
-            <button class="arrow-btn right" onclick="changeDemo(1)">&gt;</button>
-          </div>`;
-      } else {
-        contentHtml = `
-          <div class="main-card">
-            <button class="arrow-btn left" onclick="changeDemo(-1)">&lt;</button>
-            <div class="side-left">
-              <img src="${d.img}" alt="${d.title}">
-            </div>
-            <div class="side-right cta-align">
-              <div class="song-title">${d.title}</div>
-              <div class="song-desc">${d.desc}</div>
-              <div class="fiche">${d.fiche}</div>
-            </div>
-            <button class="arrow-btn right" onclick="changeDemo(1)">&gt;</button>
-          </div>`;
-      }
+      contentHtml = `
+        <div class="main-card">
+          <button class="arrow-btn left" onclick="changeDemo(-1)">&lt;</button>
+          ${muteButton}
+          <div class="side-left">
+            <img src="${d.img}" alt="${d.title}">
+          </div>
+          <div class="side-right ${!d.mp3 ? 'cta-align' : ''}">
+            <div class="song-title">${d.title}</div>
+            <div class="song-desc">${d.desc}</div>
+            ${d.mp3 ? `<div class="audio-box"><audio src="${d.mp3}"></audio></div>` : ''}
+            <div class="fiche">${index === 0 ? d.fiche : (d.mp3 ? (index === demos.length - 1 ? d.fiche : `<span class="lead">Exemple de fiche de création personnalisée</span>${d.fiche}`) : d.fiche)}</div>
+          </div>
+          <button class="arrow-btn right" onclick="changeDemo(1)">&gt;</button>
+        </div>`;
 
       document.getElementById('demo-container').innerHTML = contentHtml;
       document.querySelector('.arrow-btn.left').style.visibility = (index === 0) ? 'hidden' : 'visible';
@@ -417,7 +321,7 @@
       const audio = document.querySelector('audio');
       if (audio && d.mp3) {
           audio.muted = isGlobalMuted;
-          audio.play().catch(e => console.log("Interaction requise pour l'audio"));
+          audio.play().catch(e => console.log("Interaction requise"));
       }
     }
 
