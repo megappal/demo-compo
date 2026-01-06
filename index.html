@@ -64,7 +64,7 @@
       color: #ccc;
       margin-bottom: 16px;
       font-size: 1em;
-      white-space: normal; /* Respecte ton instruction de retour à la ligne */
+      white-space: normal;
     }
     
     .fiche {
@@ -85,7 +85,7 @@
       display: block;
     }
 
-    /* Boutons et Audio */
+    /* Boutons et Contrôles */
     .arrow-btn {
       position: absolute;
       top: 50%;
@@ -164,7 +164,7 @@
     .cta-box { margin-top: 15px; padding: 15px 25px; background: #27ffd6; border-radius: 12px; box-shadow: 0 4px 15px #0008; text-align: center; }
     .cta-wrap { word-wrap: break-word; font-style: italic; line-height: 1.3; color: #191a1f; }
 
-    /* --- CORRECTION CENTRAGE MOBILE --- */
+    /* --- RESPONSIVE & CENTRAGE --- */
     @media (max-width: 1150px) {
       .arrow-btn.left { left: 10px; }
       .arrow-btn.right { right: 10px; }
@@ -172,28 +172,27 @@
 
     @media (max-width: 900px) {
       .main-card { 
-        flex-direction: column; 
+        flex-direction: column !important; 
+        align-items: center !important; 
         padding: 60px 20px 20px 20px; 
-        margin-top: 20px; 
-        gap: 20px; 
-        align-items: center !important; /* Force le centrage de tous les enfants */
-        text-align: center;
+        gap: 25px;
       }
       .side-left { 
-        width: 100%; 
-        display: flex !important; 
-        justify-content: center !important; 
-        margin: 0 auto 10px auto;
+        width: 100% !important; 
+        display: block !important; 
+        text-align: center !important; 
+        margin: 0 auto !important;
       }
       .side-left img { 
-        max-width: 220px; 
+        display: inline-block !important; 
         margin: 0 auto !important; 
-        display: block !important; 
+        max-width: 250px; 
+        float: none !important;
       }
       .side-right { 
-        padding-right: 0; 
-        width: 100%; 
-        text-align: left; /* Texte reste lisible à gauche */
+        width: 100% !important;
+        padding-right: 0 !important;
+        text-align: left;
       }
       .arrow-btn { width: 70px; height: 70px; font-size: 2.5em; top: 40%; }
       .arrow-btn::after { top: -5px; left: -5px; right: -5px; bottom: -5px; border-width: 3px; }
@@ -227,7 +226,69 @@
         mp3: "0001-Rayon de Soleil (pour Julie).mp3",
         fiche: `<b>Personne fêtée :</b> Julie Tremblay<br><b>Âge célébré :</b> 30 ans<br><b>Sexe :</b> Féminin<br><b>Relation :</b> Sœur<br><b>Commandé par :</b> Marie Tremblay<br><b>Événement :</b> 30e anniversaire surprise<br><b>Style musical :</b> Pop acoustique<br><b>Ambiance :</b> Émotive et joyeuse<br><b>Langue :</b> Français<br><b>Détails :</b> Adore les voyages, le vin rouge, et son chat Léo. Vit à Québec.<br><b>Message spécial :</b> “Ne change jamais, tu es notre rayon de soleil.”`,
       },
-      // ... (les autres démos restent identiques au code précédent)
+      {
+        title: "Le Roi du BBQ (pour Sam)",
+        desc: "Hommage BBQ pour Sam.",
+        img: "0002-Le Roi du BBQ (pour Sam).jpg",
+        mp3: "0002-Le Roi du BBQ (pour Sam).mp3",
+        fiche: `<b>Personne fêtée :</b> Samuel Dubé<br><b>Âge célébré :</b> 25 ans<br><b>Sexe :</b> Masculin<br><b>Relation :</b> Meilleur ami<br><b>Commandé par :</b> Alex Gagnon<br><b>Événement :</b> Fête entre amis au chalet<br><b>Style musical :</b> Pop-rock<br><b>Ambiance :</b> Drôle et festive<br><b>Langue :</b> Français<br><b>Détails :</b> Toujours en retard, passionné de pêche et de bières artisanales.<br><b>Message spécial :</b> “T’es le roi du BBQ, même en hiver.”`,
+      },
+      {
+        title: "Mon Roc, Mon Aventure (pour Marc-André)",
+        desc: "Démo dédiée à Marc-André.",
+        img: "0003-Mon Roc, Mon Aventure (pour Marc-André).jpg",
+        mp3: "0003-Mon Roc, Mon Aventure (pour Marc-André).mp3",
+        fiche: `<b>Personne fêtée :</b> Marc-André Lavoie<br><b>Âge célébré :</b> 40 ans<br><b>Sexe :</b> Masculin<br><b>Relation :</b> Conjoint<br><b>Commandé par :</b> Sophie Lavoie<br><b>Événement :</b> Souper romantique 40e anniversaire<br><b>Style musical :</b> Ballade pop<br><b>Ambiance :</b> Romantique et tendre<br><b>Langue :</b> Français<br><b>Détails :</b> Amoureux de la nature, bricoleur, père de deux enfants (Éli et Maé).<br><b>Message spécial :</b> “Tu restes mon roc, mon amour, mon aventure.”`,
+      },
+      {
+        title: "50 Ans de Légende (pour Pat)",
+        desc: "Démo anniversaire pour Pat.",
+        img: "0004-50 Ans de Légende (pour Pat).jpg",
+        mp3: "0004-50 Ans de Légende (pour Pat).mp3",
+        fiche: `<b>Personne fêtée :</b> Patrick “Pat” Lemieux<br><b>Âge célébré :</b> 50 ans<br><b>Sexe :</b> Masculin<br><b>Relation :</b> Collegue de travail<br><b>Commandé par :</b> Kevin Morin<br><b>Événement :</b> Party de bureau pour ses 50 ans<br><b>Style musical :</b> Rock’n’roll classique<br><b>Ambiance :</b> Humour et camaraderie<br><b>Langue :</b> Français<br><b>Détails :</b> Toujours la blague facile, fan d’Elvis et de motos Harley.<br><b>Message spécial :</b> “50 ans de légende, et toujours aussi jeune dans sa tête !”`,
+      },
+      {
+        title: "Rêve Grand, Ma Petite Étoile (pour Zoé)",
+        desc: "Démo longtemps rêvée pour Zoé.",
+        img: "0005-Rêve Grand, Ma Petite Étoile (pour Zoé).jpg",
+        mp3: "0005-Rêve Grand, Ma Petite Étoile (pour Zoé).mp3",
+        fiche: `<b>Personne fêtée :</b> Zoé Fortin<br><b>Âge célébré :</b> 10 ans<br><b>Sexe :</b> Féminin<br><b>Relation :</b> Maman<br><b>Commandé par :</b> Élise Fortin<br><b>Événement :</b> Fête d’enfant à la maison<br><b>Style musical :</b> Pop joyeux (style Disney)<br><b>Ambiance :</b> Magique et enfantine<br><b>Langue :</b> Français<br><b>Détails :</b> Aime les licornes, la danse et les cupcakes.<br><b>Message spécial :</b> “Rêve grand, ma petite étoile.”`,
+      },
+      {
+        title: "Café & Lundi (pour Annie)",
+        desc: "Rituel du lundi matin pour Annie.",
+        img: "0006-Café & Lundi (pour Annie).jpg",
+        mp3: "0006-Café & Lundi (pour Annie).mp3",
+        fiche: `<b>Personne fêtée :</b> Annie Bouchard<br><b>Âge célébré :</b> 35 ans<br><b>Sexe :</b> Féminin<br><b>Relation :</b> Collègue proche<br><b>Commandé par :</b> David Tremblay<br><b>Événement :</b> Fête surprise au bureau<br><b>Style musical :</b> Jazz-swing<br><b>Ambiance :</b> Classe, drôle et légère<br><b>Langue :</b> Français<br><b>Détails :</b> Toujours élégante, adore le café et fait des blagues sarcastiques.<br><b>Message spécial :</b> “Annie sans café, c’est comme lundi sans soleil.”`,
+      },
+      {
+        title: "Le Rire des Vagues (pour Jean)",
+        desc: "Vagues et souvenirs pour Jean.",
+        img: "0007-Le Rire des Vagues (pour Jean).jpg",
+        mp3: "0007-Le Rire des Vagues (pour Jean).mp3",
+        fiche: `<b>Personne fêtée :</b> Jean Leblanc<br><b>Âge célébré :</b> 60 ans<br><b>Sexe :</b> Masculin<br><b>Relation :</b> Fille<br><b>Commandé par :</b> Caroline Leblanc<br><b>Événement :</b> Fête familiale<br><b>Style musical :</b> Folk acoustique<br><b>Ambiance :</b> Nostalgique et chaleureuse<br><b>Langue :</b> Français<br><b>Détails :</b> Ancien marin, aime jouer de la guitare, raconte toujours ses histoires du fleuve.<br><b>Message spécial :</b> “Papa, ton rire fait encore danser les vagues.”`,
+      },
+      {
+        title: "Le Monde Est à Toi (pour Clara)",
+        desc: "Démo motivation pour Clara.",
+        img: "0008-Le Monde Est à Toi (pour Clara).jpg",
+        mp3: "0008-Le Monde Est à Toi (pour Clara).mp3",
+        fiche: `<b>Personne fêtée :</b> Clara Côté<br><b>Âge célébré :</b> 18 ans<br><b>Sexe :</b> Féminin<br><b>Relation :</b> Maman<br><b>Commandé par :</b> Julie Coté<br><b>Événement :</b> 18e anniversaire (fête de passage)<br><b>Style musical :</b> Pop électro<br><b>Ambiance :</b> Inspirante et énergique<br><b>Langue :</b> Français<br><b>Détails :</b> Ado passionnée de photo, d’astrologie et de voyage.<br><b>Message spécial :</b> “Le monde est à toi, ma belle lumière.”`,
+      },
+      {
+        title: "Plus Que Les Pâtes du Monde (pour Mélanie)",
+        desc: "Démo gourmande pour Mélanie.",
+        img: "0009-Plus Que Les Pâtes du Monde (pour Mélanie).jpg",
+        mp3: "0009-Plus Que Les Pâtes du Monde (pour Mélanie).mp3",
+        fiche: `<b>Personne fêtée :</b> Mélanie Girard<br><b>Âge célébré :</b> 28 ans<br><b>Sexe :</b> Féminin<br><b>Relation :</b> Conjointe<br><b>Commandé par :</b> Tommy Beaulieu<br><b>Événement :</b> Fête surprise à la maison<br><b>Style musical :</b> Pop romantique<br><b>Ambiance :</b> Douce et sincère<br><b>Langue :</b> Français<br><b>Détails :</b> Elle adore les couchers de soleil et la cuisine italienne.<br><b>Message spécial :</b> “Je t’aime plus que toutes les pâtes du monde.”`,
+      },
+      {
+        title: "Ma Petite Tornade (pour Léa)",
+        desc: "Tornade d’amour pour Léa.",
+        img: "0010-Ma Petite Tornade (pour lea).jpg",
+        mp3: "0010-Ma Petite Tornade (pour lea).mp3",
+        fiche: `<b>Personne fêtée :</b> Léa Dion<br><b>Âge célébré :</b> 5 ans<br><b>Sexe :</b> Féminin<br><b>Relation :</b> Papa<br><b>Commandé par :</b> Frédéric Dion<br><b>Événement :</b> Fête d’enfant au parc<br><b>Style musical :</b> Pop pour enfants<br><b>Ambiance :</b> Enjouée et ludique<br><b>Langue :</b> Français<br><b>Détails :</b> Aime les arcs-en-ciel, les bulles et les princesses.<br><b>Message spécial :</b> “Léa, ma petite tornade d’amour.”`,
+      },
       {
         title: "CRÉEZ VOTRE CADEAU ULTIME.",
         desc: "La chanson sur mesure, un souvenir qui dure pour toujours.",
@@ -317,7 +378,7 @@
       const currentAudio = getAudio(index);
       if (currentAudio) {
         currentAudio.muted = isGlobalMuted;
-        currentAudio.play().catch(e => console.log("Interaction requise"));
+        currentAudio.play().catch(e => console.log("Attente clic"));
       }
       if (index + 1 < demos.length) getAudio(index + 1);
     }
