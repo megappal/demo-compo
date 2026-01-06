@@ -64,6 +64,7 @@
       color: #ccc;
       margin-bottom: 16px;
       font-size: 1em;
+      white-space: normal;
     }
     
     .fiche {
@@ -75,6 +76,7 @@
       margin-top: 18px;
       box-shadow: 0 2px 20px #0004;
       word-wrap: break-word;
+      overflow-wrap: break-word;
     }
     .fiche .lead {
       color: #16f2a0;
@@ -111,6 +113,17 @@
     .arrow-btn.left { left: -60px; }
     .arrow-btn.right { right: -60px; }
 
+    /* Bouton Mute et Spinner */
+    .audio-controls-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
     .mute-toggle-btn {
       background: #23232b;
       border: 2px solid #27ffd6;
@@ -123,10 +136,22 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 20;
+    }
+
+    /* Animation du Spinner */
+    .loader {
+      width: 30px;
+      height: 30px;
+      border: 3px solid #23232b;
+      border-top: 3px solid #27ffd6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: none; /* Caché par défaut */
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     .footer {
@@ -136,24 +161,27 @@
       font-weight: 600;
     }
 
+    /* Styles CTA */
     .cta-columns { display: flex; gap: 20px; text-align: left; margin: 0; max-width: 800px; align-self: center; padding-top: 5px; }
     .cta-columns > div { flex: 1; min-width: 250px; }
     .cta-action { font-size: 1.6em; font-weight: 900; margin: 15px auto !important; padding: 10px 20px; background: #34efb6; color: #191a1f; border-radius: 8px; display: inline-block; box-shadow: 0 4px 10px #0008; }
     .cta-box { margin-top: 15px; padding: 15px 25px; background: #27ffd6; border-radius: 12px; box-shadow: 0 4px 15px #0008; text-align: center; }
     .cta-wrap { word-wrap: break-word; font-style: italic; line-height: 1.3; color: #191a1f; }
 
+    /* RESPONSIVE */
     @media (max-width: 1150px) {
       .arrow-btn.left { left: 10px; }
       .arrow-btn.right { right: 10px; }
     }
 
     @media (max-width: 900px) {
-      .main-card { flex-direction: column; padding: 60px 20px 20px 20px; margin-top: 20px; gap: 20px; }
-      .side-right { padding-right: 0; width: 100%; }
-      .side-left img { max-width: 200px; }
+      .main-card { flex-direction: column; padding: 60px 20px 20px 20px; margin-top: 20px; gap: 20px; align-items: center; }
+      .side-left { width: 100%; display: flex; justify-content: center; margin-bottom: 10px;}
+      .side-left img { max-width: 220px; margin: 0 auto; display: block; }
+      .side-right { padding-right: 0; width: 100%; text-align: left; }
       .arrow-btn { width: 70px; height: 70px; font-size: 2.5em; top: 40%; }
       .arrow-btn::after { top: -5px; left: -5px; right: -5px; bottom: -5px; border-width: 3px; }
-      .song-title { font-size: 1.4em; }
+      .song-title { font-size: 1.4em; text-align: center; }
       .cta-columns { flex-direction: column; }
     }
   </style>
@@ -244,7 +272,7 @@
         desc: "Tornade d’amour pour Léa.",
         img: "0010-Ma Petite Tornade (pour lea).jpg",
         mp3: "0010-Ma Petite Tornade (pour lea).mp3",
-        fiche: `<b>Personne fêtée :</b> Léa Dion<br><b>Âge célébré :</b> 5 ans<br><b>Sexe :</b> Féminin<br><b>Relation :</b> Papa<br><b>Commandé par :</b> Frédéric Dion<br><b>Événement :</b> Fête d’enfant au parc<br><b>Style musical :</b> Pop pour enfants (style comique et adorable)<br><b>Ambiance :</b> Enjouée et ludique<br><b>Langue :</b> Français<br><b>Détails :</b> Aime les arcs-en-ciel, les bulles et les histoires de princesses.<br><b>Message spécial :</b> “Léa, ma petite tornade d’amour.”`,
+        fiche: `<b>Personne fêtée :</b> Léa Dion<br><b>Âge célébré :</b> 5 ans<br><b>Sexe :</b> Féminin<br><b>Relation :</b> Papa<br><b>Commandé par :</b> Frédéric Dion<br><b>Événement :</b> Fête d’enfant au parc<br><b>Style musical :</b> Pop pour enfants<br><b>Ambiance :</b> Enjouée et ludique<br><b>Langue :</b> Français<br><b>Détails :</b> Aime les arcs-en-ciel, les bulles et les princesses.<br><b>Message spécial :</b> “Léa, ma petite tornade d’amour.”`,
       },
       {
         title: "CRÉEZ VOTRE CADEAU ULTIME.",
@@ -256,42 +284,53 @@
                 <div class="column-left">
                     <h3 style="margin: 0 0 5px 0; color: #16f2a0;">Pourquoi choisir une chanson sur mesure ?</h3>
                     <ul style="list-style: none; padding-left: 0; padding-top: 0; margin: 0;">
-                        <li style="margin-bottom: 5px;"><strong>★ 100% Personnalisé :</strong> Votre histoire, vos anecdotes, vos messages... transformés en musique.</li>
-                        <li style="margin-bottom: 5px;"><strong>★ Unicité Garantie :</strong> Une œuvre originale composée uniquement pour vous et votre proche.</li>
-                        <li style="margin-bottom: 5px;"><strong>★ Le Cadeau qui Touche :</strong> Bien plus qu'un objet, c'est une preuve d'amour et d'attention inégalée.</li>
-                        <li style="margin-bottom: 5px;"><strong>★ Qualité Professionnelle :</strong> Production et composition par <strong>Megappal Project</strong>.</li>
+                        <li><strong>★ 100% Personnalisé :</strong> Votre histoire en musique.</li>
+                        <li><strong>★ Unicité Garantie :</strong> Une œuvre originale.</li>
+                        <li><strong>★ Le Cadeau qui Touche :</strong> Attention inégalée.</li>
+                        <li><strong>★ Qualité Pro :</strong> Performed by <strong>Megappal Project</strong>.</li>
                     </ul>
                 </div>
                 <div class="column-right">
-                    <h3 style="margin: 0 0 5px 0; color: #16f2a0;">Le processus est simple et rapide</h3>
-                    <ol style="text-align: left; padding-left: 25px; padding-top: 0; margin: 30px 0 0 0;">
-                        <li><strong>Achetez le service :</strong> Commandez votre chanson directement à la caisse de cette boutique.</li>
-                        <li><strong>Remplissez le Formulaire :</strong> Un employé vous fournira le lien de notre formulaire pour nous donner les détails créatifs.</li>
-                        <li><strong>Réception :</strong> Recevez votre chanson en fichier MP3 de haute qualité, prête à être offerte !</li>
+                    <h3 style="margin: 0 0 5px 0; color: #16f2a0;">Le processus est simple</h3>
+                    <ol style="text-align: left; padding-left: 25px; margin: 30px 0 0 0;">
+                        <li><strong>Achetez le service.</strong></li>
+                        <li><strong>Remplissez le Formulaire.</strong></li>
+                        <li><strong>Réception MP3.</strong></li>
                     </ol>
                 </div>
             </div>
             <div class="cta-box">
-                <h2 style="color: #191a1f; margin-top: 0; margin-bottom: 5px; font-size: 1.6em;">NE PARTEZ PAS SANS VOTRE CHANSON !</h2>
-                <p style="color: #191a1f; margin: 0 0 10px 0;">Le service est uniquement disponible via nos marchands partenaires.</p>
                 <p class="cta-action">PARLEZ-EN À UN EMPLOYÉ !</p>
-                <p class="cta-wrap" style="margin-top: 10px; margin-bottom: 0;">Il ou elle vous guidera pour l'achat et vous remettra un lien vers votre formulaire de composition personnalisé.</p>
+                <p class="cta-wrap">Il vous guidera pour l'achat de votre composition.</p>
             </div>
         `,
       }
     ];
 
-    // GESTION AUDIO INTELLIGENTE
     const audioObjects = {};
     let idx = 0;
     let isGlobalMuted = false;
 
-    // Fonction pour charger UN son spécifique proprement
     function getAudio(index) {
-      if (!demos[index].mp3) return null;
+      if (!demos[index] || !demos[index].mp3) return null;
       if (!audioObjects[index]) {
-        audioObjects[index] = new Audio(demos[index].mp3);
-        audioObjects[index].preload = "auto";
+        const audio = new Audio();
+        audio.preload = "auto";
+        audio.src = demos[index].mp3;
+
+        // Gestion du loader visuel
+        audio.addEventListener('waiting', () => {
+            document.getElementById('audio-loader').style.display = 'block';
+        });
+        audio.addEventListener('playing', () => {
+            document.getElementById('audio-loader').style.display = 'none';
+        });
+        audio.addEventListener('canplaythrough', () => {
+            document.getElementById('audio-loader').style.display = 'none';
+        });
+
+        audio.load();
+        audioObjects[index] = audio;
       }
       return audioObjects[index];
     }
@@ -299,7 +338,7 @@
     function toggleMute() {
       isGlobalMuted = !isGlobalMuted;
       const current = getAudio(idx);
-      const btn = document.querySelector('.mute-toggle-btn');
+      const btn = document.getElementById('mute-btn');
       if (current) current.muted = isGlobalMuted;
       if (btn) btn.textContent = isGlobalMuted ? "🔇" : "🔊";
     }
@@ -307,19 +346,21 @@
     function renderDemo(index) {
       const d = demos[index];
       
-      // 1. Arrêter tous les sons en cours immédiatement
       Object.values(audioObjects).forEach(a => {
         a.pause();
         a.currentTime = 0;
       });
 
-      // 2. Préparer l'affichage
-      const muteButton = d.mp3 ? `<button class="mute-toggle-btn" onclick="toggleMute()">${isGlobalMuted ? "🔇" : "🔊"}</button>` : '';
+      const audioControls = d.mp3 ? `
+        <div class="audio-controls-container">
+          <div class="loader" id="audio-loader"></div>
+          <button class="mute-toggle-btn" id="mute-btn" onclick="toggleMute()">${isGlobalMuted ? "🔇" : "🔊"}</button>
+        </div>` : '';
 
       const contentHtml = `
         <div class="main-card">
           <button class="arrow-btn left" onclick="changeDemo(-1)">&lt;</button>
-          ${muteButton}
+          ${audioControls}
           <div class="side-left"><img src="${d.img}" alt="${d.title}"></div>
           <div class="side-right ${!d.mp3 ? 'cta-align' : ''}">
             <div class="song-title">${d.title}</div>
@@ -333,17 +374,15 @@
       document.querySelector('.arrow-btn.left').style.visibility = (index === 0) ? 'hidden' : 'visible';
       document.querySelector('.arrow-btn.right').style.visibility = (index === demos.length - 1) ? 'hidden' : 'visible';
 
-      // 3. Lancer le son actuel
       const currentAudio = getAudio(index);
       if (currentAudio) {
         currentAudio.muted = isGlobalMuted;
-        currentAudio.play().catch(e => console.log("Clic requis"));
+        currentAudio.play().catch(e => {
+            console.log("Interaction requise");
+        });
       }
 
-      // 4. STRATÉGIE PRO : Précharger discrètement la chanson SUIVANTE uniquement
-      if (index + 1 < demos.length) {
-        getAudio(index + 1); 
-      }
+      if (index + 1 < demos.length) getAudio(index + 1);
     }
 
     function changeDemo(inc) {
@@ -353,10 +392,9 @@
       renderDemo(idx);
     }
 
-    // Lancer la première page
     renderDemo(0);
 
-    document.addEventListener('keydown', function(e){
+    document.addEventListener('keydown', (e) => {
       if(e.key==="ArrowLeft") changeDemo(-1);
       if(e.key==="ArrowRight") changeDemo(1);
     });
