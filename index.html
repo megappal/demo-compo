@@ -83,7 +83,7 @@
       display: block;
     }
 
-    /* Contrôles */
+    /* Contrôles Audio et Flèches */
     .arrow-btn {
       position: absolute;
       top: 50%;
@@ -147,22 +147,37 @@
 
     .footer { text-align: center; color: #aaa; padding: 20px 0; font-weight: 600; }
 
-    /* CTA final */
-    .cta-columns { display: flex; gap: 20px; text-align: left; }
-    .cta-action { font-size: 1.6em; font-weight: 900; margin: 15px auto !important; padding: 10px 20px; background: #34efb6; color: #191a1f; border-radius: 8px; display: inline-block; }
-    .cta-box { margin-top: 15px; padding: 15px 25px; background: #27ffd6; border-radius: 12px; text-align: center; color: #191a1f; }
+    /* --- RESPONSIVE MOBILE --- */
+    @media (max-width: 1150px) {
+      .arrow-btn.left { left: 10px; }
+      .arrow-btn.right { right: 10px; }
+    }
 
-    /* Correction Mobile */
-    @media (max-width: 1150px) { .arrow-btn.left { left: 10px; } .arrow-btn.right { right: 10px; } }
     @media (max-width: 900px) {
-      .main-card { flex-direction: column !important; align-items: center !important; padding: 60px 20px 20px 20px; }
-      .side-left { width: 100% !important; display: block !important; text-align: center !important; margin-bottom: 10px; }
-      .side-left img { display: inline-block !important; margin: 0 auto !important; max-width: 250px; }
-      .side-right { width: 100% !important; padding-right: 0 !important; text-align: left; }
+      .main-card { 
+        flex-direction: column !important; 
+        align-items: center !important; 
+        padding: 60px 20px 20px 20px; 
+        gap: 25px;
+      }
+      .side-left { 
+        width: 100% !important; 
+        display: block !important; 
+        text-align: center !important; 
+      }
+      .side-left img { 
+        display: inline-block !important; 
+        margin: 0 auto !important; 
+        max-width: 250px; 
+      }
+      .side-right { 
+        width: 100% !important;
+        padding-right: 0 !important;
+        text-align: left;
+      }
       .arrow-btn { width: 70px; height: 70px; font-size: 2.5em; top: 40%; }
       .arrow-btn::after { top: -5px; left: -5px; right: -5px; bottom: -5px; border-width: 3px; }
       .song-title { font-size: 1.4em; text-align: center; }
-      .cta-columns { flex-direction: column; }
     }
   </style>
 </head>
@@ -182,19 +197,19 @@
         title: "Rayon de Soleil pour Julie",
         desc: "Démo personnalisée en français pour Julie.",
         img: "0001-Rayon de Soleil (pour Julie).jpg", mp3: "0001-Rayon de Soleil (pour Julie).mp3",
-        fiche: `<b>Personne fêtée :</b> Julie Tremblay<br><b>Âge célébré :</b> 30 ans<br><b>Style :</b> Pop acoustique<br><b>Détails :</b> Adore les voyages et son chat Léo.<br><b>Message :</b> “Ne change jamais.”`,
+        fiche: `<b>Personne fêtée :</b> Julie Tremblay<br><b>Âge :</b> 30 ans<br><b>Relation :</b> Sœur<br><b>Style :</b> Pop acoustique<br><b>Détails :</b> Adore les voyages et son chat Léo.<br><b>Message :</b> “Ne change jamais.”`,
       },
       {
         title: "Le Roi du BBQ (pour Sam)",
         desc: "Hommage BBQ pour Sam.",
         img: "0002-Le Roi du BBQ (pour Sam).jpg", mp3: "0002-Le Roi du BBQ (pour Sam).mp3",
-        fiche: `<b>Personne fêtée :</b> Samuel Dubé<br><b>Âge :</b> 25 ans<br><b>Style :</b> Pop-rock<br><b>Détails :</b> Toujours en retard, passionné de pêche.<br><b>Message :</b> “T’es le roi du BBQ.”`,
+        fiche: `<b>Personne fêtée :</b> Samuel Dubé<br><b>Âge :</b> 25 ans<br><b>Relation :</b> Meilleur ami<br><b>Style :</b> Pop-rock<br><b>Détails :</b> Passionné de pêche et de bières.<br><b>Message :</b> “T’es le roi du BBQ.”`,
       },
       {
         title: "Mon Roc, Mon Aventure (pour Marc-André)",
         desc: "Démo dédiée à Marc-André.",
         img: "0003-Mon Roc, Mon Aventure (pour Marc-André).jpg", mp3: "0003-Mon Roc, Mon Aventure (pour Marc-André).mp3",
-        fiche: `<b>Personne fêtée :</b> Marc-André Lavoie<br><b>Âge :</b> 40 ans<br><b>Style :</b> Ballade pop<br><b>Détails :</b> Bricoleur, père de deux enfants.<br><b>Message :</b> “Tu restes mon roc.”`,
+        fiche: `<b>Personne fêtée :</b> Marc-André Lavoie<br><b>Âge :</b> 40 ans<br><b>Style :</b> Ballade pop<br><b>Détails :</b> Père de deux enfants (Éli et Maé).<br><b>Message :</b> “Tu restes mon roc.”`,
       },
       {
         title: "50 Ans de Légende (pour Pat)",
@@ -206,7 +221,7 @@
         title: "Rêve Grand, Ma Petite Étoile (pour Zoé)",
         desc: "Démo magique pour Zoé.",
         img: "0005-Rêve Grand, Ma Petite Étoile (pour Zoé).jpg", mp3: "0005-Rêve Grand, Ma Petite Étoile (pour Zoé).mp3",
-        fiche: `<b>Personne fêtée :</b> Zoé Fortin<br><b>Âge :</b> 10 ans<br><b>Style :</b> Pop joyeux (Disney)<br><b>Détails :</b> Aime les licornes et la danse.<br><b>Message :</b> “Rêve grand.”`,
+        fiche: `<b>Personne fêtée :</b> Zoé Fortin<br><b>Âge :</b> 10 ans<br><b>Style :</b> Pop joyeux<br><b>Détails :</b> Aime les licornes et la danse.<br><b>Message :</b> “Rêve grand, petite étoile.”`,
       },
       {
         title: "Café & Lundi (pour Annie)",
@@ -218,7 +233,7 @@
         title: "Le Rire des Vagues (pour Jean)",
         desc: "Vagues et souvenirs pour Jean.",
         img: "0007-Le Rire des Vagues (pour Jean).jpg", mp3: "0007-Le Rire des Vagues (pour Jean).mp3",
-        fiche: `<b>Personne fêtée :</b> Jean Leblanc<br><b>Âge :</b> 60 ans<br><b>Style :</b> Folk acoustique<br><b>Détails :</b> Ancien marin, aime sa guitare.<br><b>Message :</b> “Ton rire fait danser les vagues.”`,
+        fiche: `<b>Personne fêtée :</b> Jean Leblanc<br><b>Âge :</b> 60 ans<br><b>Style :</b> Folk acoustique<br><b>Détails :</b> Ancien marin, aime jouer de la guitare.<br><b>Message :</b> “Ton rire fait danser les vagues.”`,
       },
       {
         title: "Le Monde Est à Toi (pour Clara)",
@@ -230,20 +245,19 @@
         title: "Plus Que Les Pâtes du Monde (pour Mélanie)",
         desc: "Démo gourmande pour Mélanie.",
         img: "0009-Plus Que Les Pâtes du Monde (pour Mélanie).jpg", mp3: "0009-Plus Que Les Pâtes du Monde (pour Mélanie).mp3",
-        fiche: `<b>Personne fêtée :</b> Mélanie Girard<br><b>Âge :</b> 28 ans<br><b>Style :</b> Pop romantique<br><b>Détails :</b> Aime les couchers de soleil et l'Italie.<br><b>Message :</b> “Je t’aime plus que les pâtes.”`,
+        fiche: `<b>Personne fêtée :</b> Mélanie Girard<br><b>Âge :</b> 28 ans<br><b>Style :</b> Pop romantique<br><b>Détails :</b> Aime la cuisine italienne.<br><b>Message :</b> “Je t’aime plus que les pâtes.”`,
       },
       {
         title: "Ma Petite Tornade (pour Léa)",
         desc: "Tornade d’amour pour Léa.",
         img: "0010-Ma Petite Tornade (pour lea).jpg", mp3: "0010-Ma Petite Tornade (pour lea).mp3",
-        fiche: `<b>Personne fêtée :</b> Léa Dion<br><b>Âge :</b> 5 ans<br><b>Style :</b> Pop enfant<br><b>Détails :</b> Aime les arcs-en-ciel et les bulles.<br><b>Message :</b> “Ma petite tornade d’amour.”`,
+        fiche: `<b>Personne fêtée :</b> Léa Dion<br><b>Âge :</b> 5 ans<br><b>Style :</b> Pop enfant<br><b>Détails :</b> Aime les arcs-en-ciel.<br><b>Message :</b> “Ma petite tornade d’amour.”`,
       },
       {
         title: "CRÉEZ VOTRE CADEAU ULTIME.",
         desc: "Un souvenir qui dure pour toujours.",
         img: "cta-image.jpg", mp3: "exit-song.mp3",
-        fiche: `<div class="cta-columns"><div>★ 100% Personnalisé par <b>Megappal Project</b>.<br>★ Unicité Garantie.</div></div>
-                <div class="cta-box"><p class="cta-action">PARLEZ-EN À UN EMPLOYÉ !</p></div>`,
+        fiche: `<div style="text-align:center;"><p>★ 100% Personnalisé par <b>Megappal Project</b>.</p><div style="background:#27ffd6; padding:15px; border-radius:12px; color:#191a1f;"><p style="font-weight:900;font-size:1.3em;margin:0;">PARLEZ-EN À UN EMPLOYÉ !</p></div></div>`,
       }
     ];
 
