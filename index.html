@@ -39,7 +39,7 @@
     .audio-controls { position: absolute; top: 20px; right: 20px; z-index: 110; }
     .mute-btn { background: #23232b; border: 2px solid #27ffd6; color: #27ffd6; border-radius: 50%; width: 60px; height: 60px; font-size: 2em; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-    /* CTA Final - Correction de l'alignement ici */
+    /* CTA Final */
     .cta-container { display: flex; gap: 25px; text-align: left; margin-top: 15px; }
     .cta-col { flex: 1; }
     .cta-col h3 { color: var(--accent); margin: 0 0 12px 0; font-size: 1.1em; }
@@ -52,6 +52,7 @@
     .cta-green-box { margin-top: 25px; padding: 25px; background: var(--accent); border-radius: 12px; text-align: center; color: #191a1f; }
     .cta-green-box h2 { margin: 0 0 10px 0; font-size: 1.3em; font-weight: 800; text-transform: uppercase; }
     
+    /* Correction du bouton "Parlez-en à un employé" */
     .cta-btn-main { 
         background: #23232b; color: #fff; padding: 15px 30px; border-radius: 8px; 
         font-weight: 900; font-size: 1.4em; display: table; margin: 15px auto; text-decoration: none; 
@@ -212,12 +213,33 @@
       if (audios[idx]) audios[idx].muted = muted;
     }
 
+    // Préchargement intelligent pour éviter les délais 5G
+    function preloadNext() {
+      const nextIdx = idx + 1;
+      if (nextIdx < demos.length) {
+        // Précharger l'audio
+        if (demos[nextIdx].s && !audios[nextIdx]) {
+          audios[nextIdx] = new Audio(demos[nextIdx].s);
+          audios[nextIdx].preload = "auto";
+          audios[nextIdx].load();
+        }
+        // Précharger l'image
+        const img = new Image();
+        img.src = demos[nextIdx].i;
+      }
+    }
+
     function show() {
       const d = demos[idx];
+      
+      // Stop tous les sons en cours
       Object.values(audios).forEach(a => { a.pause(); a.currentTime = 0; });
+
+      // Mise à jour visuelle
       document.getElementById('elTitle').textContent = d.t;
       document.getElementById('elDesc').innerHTML = d.d;
       document.getElementById('elImg').src = d.i;
+      
       const f = document.getElementById('elFiche');
       if (d.isCTA) {
         f.className = "";
@@ -227,19 +249,29 @@
         const lead = (idx > 0) ? '<span class="lead">Exemple de fiche de création personnalisée</span>' : '';
         f.innerHTML = lead + d.f;
       }
+
       document.getElementById('btnPrev').disabled = (idx === 0);
       document.getElementById('btnNext').disabled = (idx === demos.length - 1);
+
+      // Gestion Audio
       const ui = document.getElementById('uiAudio');
       if (d.s) {
         ui.style.display = "block";
         if (!audios[idx]) audios[idx] = new Audio(d.s);
         audios[idx].muted = muted;
-        audios[idx].play().catch(() => { console.log("Play bloqué"); });
+        audios[idx].play().catch(() => { console.log("Play bloqué (interaction requise)"); });
       } else {
         ui.style.display = "none";
       }
+
+      // Lancer le préchargement de la page suivante après un court délai
+      setTimeout(preloadNext, 500);
     }
-    show();
+
+    // Sécurité : Attendre que le DOM soit prêt pour éviter la page blanche
+    window.addEventListener('DOMContentLoaded', () => {
+      show();
+    });
   </script>
 </body>
 </html>
